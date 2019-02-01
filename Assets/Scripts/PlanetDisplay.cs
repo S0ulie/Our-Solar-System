@@ -33,9 +33,9 @@ public class PlanetDisplay : MonoBehaviour
 
         // Set the rest of the UI objects to the planet's stats
         descriptionText.text = thisPlanet.description;
-        diameterText.text = "Diameter: " + thisPlanet.diameter.ToString();
+        diameterText.text = "Diameter: " + thisPlanet.diameter.ToString() + " km";
         temperatureText.text = "Average Temperature: " + thisPlanet.temperature.ToString() + " °C";
-        gravityText.text = "Gravity: " + thisPlanet.gravity.ToString();
+        gravityText.text = "Gravity: " + thisPlanet.gravity.ToString() + " m/s²";
         numMoonsText.text = "Number of Moons: " + thisPlanet.numMoons.ToString();
 
         // Get the pixels per unit of the sprite being used

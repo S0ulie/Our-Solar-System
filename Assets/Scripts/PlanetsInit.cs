@@ -59,7 +59,7 @@ public class PlanetsInit : MonoBehaviour
         pixelsPerKm = maxDiameterPixels / planetstats["Jupiter"].diameter;
 
         // Initialize button
-        button = GameObject.Find("Button");
+        button = GameObject.Find("Go Back Button");
         button.gameObject.SetActive(false);
     }
 }
