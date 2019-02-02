@@ -17,7 +17,13 @@ public class PlanetDisplay : MonoBehaviour
     public Text gravityText;
     public Text numMoonsText;
 
-    public float thisPlanetScale;
+    public Vector2 sizeModeNameVector;
+    public float diameterInPixels;
+    public RectTransform planetRectTransform;
+    public RectTransform nameRectTransform;
+    public float sizeModeScale;
+    public float sizeModeNameX;
+    public float sizeModeNameY;
 
 
     // Use this for initialization
@@ -31,7 +37,7 @@ public class PlanetDisplay : MonoBehaviour
         // Use the scriptable planet's name to look up the corresponding stats
         PlanetStats thisPlanet = PlanetsInit.planetstats[planet.name];
 
-        // Set the rest of the UI objects to the planet's stats
+        // Set the rest of this planet's child objects to the planet's stats
         descriptionText.text = thisPlanet.description;
         diameterText.text = "Diameter: " + thisPlanet.diameter.ToString() + " km";
         temperatureText.text = "Average Temperature: " + thisPlanet.temperature.ToString() + " °C";
@@ -43,24 +49,29 @@ public class PlanetDisplay : MonoBehaviour
         float ppu = graphicSprite.sprite.pixelsPerUnit;
 
         // Set the scale of the planet relative to it's diameter
-        float diameterInPixels = thisPlanet.diameter * PlanetsInit.pixelsPerKm;
-        thisPlanetScale = diameterInPixels / ppu;
-        tempObj.transform.localScale = new Vector2(thisPlanetScale, thisPlanetScale);
+        diameterInPixels = thisPlanet.diameter * PlanetsInit.pixelsPerKm;
+        sizeModeScale = diameterInPixels / ppu;
+        tempObj.transform.localScale = new Vector2(sizeModeScale, sizeModeScale);
 
         // Keep the name above the scaled planet
         tempObj = transform.Find("Name");
-        RectTransform planetRectTransform = tempObj.GetComponent<RectTransform>();
-        float tempX = planetRectTransform.anchoredPosition.x;
-        float tempY = planetRectTransform.anchoredPosition.y;
-        planetRectTransform.anchoredPosition = new Vector2(tempX, tempY + 0.45f * diameterInPixels);
+        nameRectTransform = tempObj.GetComponent<RectTransform>();
+        sizeModeNameX = nameRectTransform.anchoredPosition.x;
+        sizeModeNameY = nameRectTransform.anchoredPosition.y;
+        nameRectTransform.anchoredPosition = new Vector2(sizeModeNameX, sizeModeNameY + PlanetsInit.sizeModeScalar * diameterInPixels);
+
+        // Save vector to variable for future use
+        sizeModeNameVector = nameRectTransform.anchoredPosition;
+        // Set the Planet Info positions relative to screen
 
         // Keep the description below the planet
+        /*
         tempObj = transform.Find("Description");
         planetRectTransform = tempObj.GetComponent<RectTransform>();
         tempX = planetRectTransform.anchoredPosition.x;
         tempY = planetRectTransform.anchoredPosition.y;
         planetRectTransform.anchoredPosition = new Vector2(tempX, tempY - 0.3f * diameterInPixels);
-
+        */
 
     }
 }

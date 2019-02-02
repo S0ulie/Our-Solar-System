@@ -18,10 +18,15 @@ public class PlanetsInit : MonoBehaviour
     // Keep track of whether a planet has been chosen by the player.
     public static string chosenPlanet = "none";
 
+    // Set the global Size Mode scalar constant
+    public static float sizeModeScalar = 0.45f;
 
-    // Set the global "description" position
-    public static float descriptX = 0f;
-    public static float descriptY = 0f;
+    // Set the global Planet Info position
+    public static float infoX = 0f;
+    public static float infoY = 0f;
+
+    // Set the global Info Mode Name position y
+    public static float infoNameY = 250f;
 
     public static GameObject button;
 

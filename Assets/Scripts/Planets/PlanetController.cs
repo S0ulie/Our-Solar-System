@@ -5,21 +5,23 @@ using UnityEngine.UI;
 
 public class PlanetController : MonoBehaviour
 {
-    // Declare the size mode co-ords
+    // Declare the size mode co-ords and scale
     public float sizeModeX;
     public float sizeModeY;
     RectTransform planetRectTransform;
+    RectTransform nameRectTransform;
 
     // Declare references to planet's child objects
     GameObject planetNameObject;
     GameObject planetImageObject;
-    string planetName;
+    string planetNameText;
 
     void Start()
     {
         // Get the RectTransform from this game object
         planetRectTransform = GetComponent<RectTransform>();
-        // Set the size mode co-ords to the starting co-ords
+
+        // Get the starting versions of the size mode co-ords and scale
         sizeModeX = planetRectTransform.anchoredPosition.x;
         sizeModeY = planetRectTransform.anchoredPosition.y;
 
@@ -27,19 +29,33 @@ public class PlanetController : MonoBehaviour
         planetNameObject = gameObject.transform.Find("Name").gameObject;
         planetImageObject = gameObject.transform.Find("Image").gameObject;
 
+        nameRectTransform = planetNameObject.GetComponent<RectTransform>();
     }
 
     // When this planet has been chosen by the player
     public void onClickPlanet()
     {
         // Get the planet name from the name object
-        planetName = planetNameObject.GetComponent<Text>().text;
+        planetNameText = planetNameObject.GetComponent<Text>().text;
 
         // Set this planet as the chosen planet
-        PlanetsInit.chosenPlanet = planetName;
+        PlanetsInit.chosenPlanet = planetNameText;
 
-        // Set this position to the global "description" position
-        planetRectTransform.anchoredPosition = new Vector2(PlanetsInit.descriptX, PlanetsInit.descriptY);
+        PlanetDisplay planetDisplayScript =  gameObject.GetComponent<PlanetDisplay>();
+        Vector2 sizeModeNameVector = planetDisplayScript.sizeModeNameVector;
+        /*
+        var nameX = planetDisplayScript.sizeModeNameX;
+        var nameY = planetDisplayScript.sizeModeNameY;
+        var diameter = planetDisplayScript.diameterInPixels;
+        */
+        var nameX = nameRectTransform.anchoredPosition.x;
+        nameRectTransform.anchoredPosition = new Vector2(nameX, PlanetsInit.infoNameY);// sizeModeNameVector;
+
+
+        planetImageObject.transform.localScale = new Vector2(4, 4);//sizeModeScale, sizeModeScale);
+
+        // Set this position to the global Planet Info position
+        planetRectTransform.anchoredPosition = new Vector2(PlanetsInit.infoX, PlanetsInit.infoY);
 
         // Enable all the text objects
         gameObject.transform.Find("Description").gameObject.SetActive(true);
@@ -57,13 +73,13 @@ public class PlanetController : MonoBehaviour
         // ----- Check if a planet has been chosen by the player -----
 
         // Get planet's name from the name object
-        planetName = planetNameObject.GetComponent<Text>().text;
+        planetNameText = planetNameObject.GetComponent<Text>().text;
 
         // If this planet has been initialized
-        if (planetName != "unintialized")
+        if (planetNameText != "unintialized")
         {
             // If a planet has been chosen and is not the current planet's name
-            if (PlanetsInit.chosenPlanet != "none" && PlanetsInit.chosenPlanet != planetName)
+            if (PlanetsInit.chosenPlanet != "none" && PlanetsInit.chosenPlanet != planetNameText)
             {
                 // Disable this planet's name and image
                 planetNameObject.SetActive(false);
