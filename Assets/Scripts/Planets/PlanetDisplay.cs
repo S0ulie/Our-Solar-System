@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//
 public class PlanetDisplay : MonoBehaviour
 {
     public Planet planet;
@@ -62,16 +63,8 @@ public class PlanetDisplay : MonoBehaviour
 
         // Save vector to variable for future use
         sizeModeNameVector = nameRectTransform.anchoredPosition;
+        
         // Set the Planet Info positions relative to screen
-
-        // Keep the description below the planet
-        /*
-        tempObj = transform.Find("Description");
-        planetRectTransform = tempObj.GetComponent<RectTransform>();
-        tempX = planetRectTransform.anchoredPosition.x;
-        tempY = planetRectTransform.anchoredPosition.y;
-        planetRectTransform.anchoredPosition = new Vector2(tempX, tempY - 0.3f * diameterInPixels);
-        */
 
     }
 }
