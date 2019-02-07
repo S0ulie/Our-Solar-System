@@ -7,7 +7,7 @@ public class GoBack : MonoBehaviour {
     public void goBack()
     {
         // Get the chosen planet object
-        GameObject chosenPlanet = GameObject.Find(PlanetsInit.chosenPlanet);
+        GameObject chosenPlanet = GameObject.Find(GameController.chosenPlanet);
         
         
         // Reset the planets back to the current mode's settings

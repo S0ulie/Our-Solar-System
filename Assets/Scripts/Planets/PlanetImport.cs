@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // Import the planet information from a scriptable planet object
-public class PlanetDisplay : MonoBehaviour
+public class PlanetImport : MonoBehaviour
 {
     public Planet planet;
 
@@ -20,7 +20,7 @@ public class PlanetDisplay : MonoBehaviour
 
     public PlanetStats thisPlanet;
 
-    void Start ()
+    void Start()
     {
         // Set the UI Name's text to the scriptable planet's name
         nameText.text = planet.name;
@@ -28,7 +28,7 @@ public class PlanetDisplay : MonoBehaviour
         graphicSprite.sprite = planet.graphic;
 
         // Use the scriptable planet's name to look up the corresponding stats
-        thisPlanet = PlanetsInit.planetstats[planet.name];
+        thisPlanet = GameController.planetstats[planet.name];
 
         // Set the rest of this planet's child objects to the planet's stats
         descriptionText.text = thisPlanet.description;

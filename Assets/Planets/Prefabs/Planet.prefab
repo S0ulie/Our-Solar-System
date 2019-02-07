@@ -155,7 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224299975058273032}
-  - component: {fileID: 114993205309986276}
+  - component: {fileID: 114441934020900562}
   - component: {fileID: 114915095991022100}
   - component: {fileID: 114774061316099134}
   m_Layer: 5
@@ -258,6 +258,25 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114441934020900562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1789521613800852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ff2d800c562d84cb1ba3674fa3708f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planet: {fileID: 11400000, guid: f79e4ff82c9b0e6428557903f18d7b71, type: 2}
+  nameText: {fileID: 114331755501456654}
+  descriptionText: {fileID: 114607211746683616}
+  graphicSprite: {fileID: 114361656615998608}
+  diameterText: {fileID: 114511538160693406}
+  temperatureText: {fileID: 114545824271271698}
+  gravityText: {fileID: 114228544938093308}
+  numMoonsText: {fileID: 114841627955263156}
 --- !u!114 &114511538160693406
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -368,8 +387,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d44bac774739ae4fb2e09522b7fceab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  diameterInPixels: 0
   sizeModeX: 0
   sizeModeY: 0
+  sizeModeScale: 0
+  sizeModeNameX: 0
+  sizeModeNameY: 0
+  sizeModeNameVector: {x: 0, y: 0}
 --- !u!114 &114812910426677082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -488,26 +512,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114993205309986276
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1789521613800852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9290ebe79150564789c6fd56a6f477c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  planet: {fileID: 11400000, guid: 307d9b053d26ee542ba54661c8318667, type: 2}
-  nameText: {fileID: 114331755501456654}
-  descriptionText: {fileID: 114607211746683616}
-  graphicSprite: {fileID: 114361656615998608}
-  diameterText: {fileID: 114511538160693406}
-  temperatureText: {fileID: 114545824271271698}
-  gravityText: {fileID: 114228544938093308}
-  numMoonsText: {fileID: 114841627955263156}
-  sizeModeScale: 0
 --- !u!222 &222123910898900930
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -605,7 +609,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -885, y: -100}
+  m_AnchoredPosition: {x: 830, y: -100}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224491079028552198

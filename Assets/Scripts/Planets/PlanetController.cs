@@ -47,7 +47,7 @@ public class PlanetController : MonoBehaviour
         // Setup the objects
 
         // Set the scale of the planet relative to it's diameter
-        diameterInPixels = thisPlanet.diameter * PlanetsInit.pixelsPerKm;
+        diameterInPixels = thisPlanet.diameter * GameController.pixelsPerKm;
         sizeModeScale = diameterInPixels / ppu;
         planetImageObject.transform.localScale = new Vector2(sizeModeScale, sizeModeScale);
 
@@ -55,7 +55,7 @@ public class PlanetController : MonoBehaviour
         nameRectTransform = planetNameObject.GetComponent<RectTransform>();
         sizeModeNameX = nameRectTransform.anchoredPosition.x;
         sizeModeNameY = nameRectTransform.anchoredPosition.y;
-        nameRectTransform.anchoredPosition = new Vector2(sizeModeNameX, sizeModeNameY + PlanetsInit.sizeModeScalar * diameterInPixels);
+        nameRectTransform.anchoredPosition = new Vector2(sizeModeNameX, sizeModeNameY + GameController.sizeModeScalar * diameterInPixels);
 
         // Save vector to variable for future use
         sizeModeNameVector = nameRectTransform.anchoredPosition;
@@ -68,15 +68,15 @@ public class PlanetController : MonoBehaviour
         planetNameText = planetNameObject.GetComponent<Text>().text;
 
         // Set this planet as the chosen planet
-        PlanetsInit.chosenPlanet = planetNameText;
+        GameController.chosenPlanet = planetNameText;
 
         // Set this planet's name text position to the Planet Info version
         var nameX = nameRectTransform.anchoredPosition.x;
-        nameRectTransform.anchoredPosition = new Vector2(nameX, PlanetsInit.infoNameY);
+        nameRectTransform.anchoredPosition = new Vector2(nameX, GameController.infoNameY);
 
         // Set this planet's position and scale to the Planet Info version
-        planetRectTransform.anchoredPosition = new Vector2(PlanetsInit.infoX, PlanetsInit.infoY);
-        planetImageObject.transform.localScale = new Vector2(PlanetsInit.infoModeScale, PlanetsInit.infoModeScale);
+        planetRectTransform.anchoredPosition = new Vector2(GameController.infoX, GameController.infoY);
+        planetImageObject.transform.localScale = new Vector2(GameController.infoModeScale, GameController.infoModeScale);
 
         // Enable all the text objects
         gameObject.transform.Find("Description").gameObject.SetActive(true);
@@ -86,7 +86,7 @@ public class PlanetController : MonoBehaviour
         gameObject.transform.Find("NumMoons").gameObject.SetActive(true);
 
         // Enable the "Go Back" button
-        PlanetsInit.button.gameObject.SetActive(true);
+        GameController.button.gameObject.SetActive(true);
     }
 
     public void SetToSizeMode()
@@ -100,7 +100,7 @@ public class PlanetController : MonoBehaviour
         planetImageObject.transform.localScale = new Vector2(sizeModeScale, sizeModeScale);
 
         // Set this planet's name object back to the Size Mode position
-        nameRectTransform.anchoredPosition = sizeModeNameVector;//new Vector2(planetDisplayScript.sizeModeNameX,sizeMode;
+        nameRectTransform.anchoredPosition = sizeModeNameVector;//new Vector2(PlanetImportScript.sizeModeNameX,sizeMode;
 
         // Deactivate all the text objects belonging to this planet
         transform.Find("Description").gameObject.SetActive(false);
@@ -110,7 +110,7 @@ public class PlanetController : MonoBehaviour
         transform.Find("NumMoons").gameObject.SetActive(false);
 
         // Set the chosen planet back to none
-        PlanetsInit.chosenPlanet = "none";
+        GameController.chosenPlanet = "none";
     }
 
     void Update()
@@ -124,7 +124,7 @@ public class PlanetController : MonoBehaviour
         if (planetNameText != "unintialized")
         {
             // If a planet has been chosen and is not the current planet's name
-            if (PlanetsInit.chosenPlanet != "none" && PlanetsInit.chosenPlanet != planetNameText)
+            if (GameController.chosenPlanet != "none" && GameController.chosenPlanet != planetNameText)
             {
                 // Disable this planet's name and image
                 planetNameObject.SetActive(false);
