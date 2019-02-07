@@ -18,8 +18,8 @@ public class GameController : MonoBehaviour
     // Keep track of whether a planet has been chosen by the player.
     public static string chosenPlanet = "none";
 
-    // Set the global Size Mode scalar constant
-    public static float sizeModeScalar = 0.45f;
+    // Set the global text position scalar
+    public static float textScalar = 0.45f;
 
     // Set the global Planet Info position, scale, and name
     public static float infoX = 0f;

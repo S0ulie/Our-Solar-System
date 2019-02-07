@@ -13,7 +13,7 @@ public class GoBack : MonoBehaviour {
         // Reset the planets back to the current mode's settings
 
         // If Size Mode do reset to size mode
-        chosenPlanet.GetComponent<PlanetController>().SetToSizeMode();
+        chosenPlanet.GetComponent<PlanetController>().ResetPlanet();
 
         // If Distance Mode do reset to distance mode
 
