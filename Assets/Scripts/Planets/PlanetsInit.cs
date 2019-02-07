@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+// Initialize the Game/Solar System
 public class PlanetsInit : MonoBehaviour
 {
 
@@ -21,9 +21,10 @@ public class PlanetsInit : MonoBehaviour
     // Set the global Size Mode scalar constant
     public static float sizeModeScalar = 0.45f;
 
-    // Set the global Planet Info position
+    // Set the global Planet Info position, scale, and name
     public static float infoX = 0f;
     public static float infoY = 0f;
+    public static float infoModeScale = 4f;
 
     // Set the global Info Mode Name position y
     public static float infoNameY = 250f;

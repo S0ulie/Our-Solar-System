@@ -3,59 +3,80 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Initialize and control the interactions with this planet
 public class PlanetController : MonoBehaviour
 {
-    // Declare the size mode co-ords and scale
-    public float sizeModeX;
-    public float sizeModeY;
-    RectTransform planetRectTransform;
-    RectTransform nameRectTransform;
-
-    // Declare references to planet's child objects
+    // Declare Variables
     GameObject planetNameObject;
     GameObject planetImageObject;
+    RectTransform planetRectTransform;
+    RectTransform nameRectTransform;
+    Sprite planetSprite;
+
+    public float diameterInPixels;
+    public float sizeModeX;
+    public float sizeModeY;
+    public float sizeModeScale;
+
+    public float sizeModeNameX;
+    public float sizeModeNameY;
+    public Vector2 sizeModeNameVector;
     string planetNameText;
 
-    void Start()
+    // Setup this planet
+    public void PlanetSetup(PlanetStats thisPlanet)
     {
-        // Get the RectTransform from this game object
-        planetRectTransform = GetComponent<RectTransform>();
-
-        // Get the starting versions of the size mode co-ords and scale
-        sizeModeX = planetRectTransform.anchoredPosition.x;
-        sizeModeY = planetRectTransform.anchoredPosition.y;
+        // Initialize Variables
 
         // Set a reference to the child objects, Name and Image;
         planetNameObject = gameObject.transform.Find("Name").gameObject;
         planetImageObject = gameObject.transform.Find("Image").gameObject;
 
+        // Get the RectTransform of this planet and it's name object.
+        planetRectTransform = GetComponent<RectTransform>();
         nameRectTransform = planetNameObject.GetComponent<RectTransform>();
+
+        // Get the starting versions of the size mode co-ords and scale
+        sizeModeX = planetRectTransform.anchoredPosition.x;
+        sizeModeY = planetRectTransform.anchoredPosition.y;
+
+        // Get the pixels per unit of the sprite being used
+        float ppu = planetImageObject.GetComponent<Image>().sprite.pixelsPerUnit;
+
+
+        // Setup the objects
+
+        // Set the scale of the planet relative to it's diameter
+        diameterInPixels = thisPlanet.diameter * PlanetsInit.pixelsPerKm;
+        sizeModeScale = diameterInPixels / ppu;
+        planetImageObject.transform.localScale = new Vector2(sizeModeScale, sizeModeScale);
+
+        // Keep the name above the scaled planet
+        nameRectTransform = planetNameObject.GetComponent<RectTransform>();
+        sizeModeNameX = nameRectTransform.anchoredPosition.x;
+        sizeModeNameY = nameRectTransform.anchoredPosition.y;
+        nameRectTransform.anchoredPosition = new Vector2(sizeModeNameX, sizeModeNameY + PlanetsInit.sizeModeScalar * diameterInPixels);
+
+        // Save vector to variable for future use
+        sizeModeNameVector = nameRectTransform.anchoredPosition;
     }
 
-    // When this planet has been chosen by the player
+    // When this planet has been chosen by the player, show this Planet's Info
     public void onClickPlanet()
     {
-        // Get the planet name from the name object
+        // Get this planet's name text from the name object
         planetNameText = planetNameObject.GetComponent<Text>().text;
 
         // Set this planet as the chosen planet
         PlanetsInit.chosenPlanet = planetNameText;
 
-        PlanetDisplay planetDisplayScript =  gameObject.GetComponent<PlanetDisplay>();
-        Vector2 sizeModeNameVector = planetDisplayScript.sizeModeNameVector;
-        /*
-        var nameX = planetDisplayScript.sizeModeNameX;
-        var nameY = planetDisplayScript.sizeModeNameY;
-        var diameter = planetDisplayScript.diameterInPixels;
-        */
+        // Set this planet's name text position to the Planet Info version
         var nameX = nameRectTransform.anchoredPosition.x;
-        nameRectTransform.anchoredPosition = new Vector2(nameX, PlanetsInit.infoNameY);// sizeModeNameVector;
+        nameRectTransform.anchoredPosition = new Vector2(nameX, PlanetsInit.infoNameY);
 
-
-        planetImageObject.transform.localScale = new Vector2(4, 4);//sizeModeScale, sizeModeScale);
-
-        // Set this position to the global Planet Info position
+        // Set this planet's position and scale to the Planet Info version
         planetRectTransform.anchoredPosition = new Vector2(PlanetsInit.infoX, PlanetsInit.infoY);
+        planetImageObject.transform.localScale = new Vector2(PlanetsInit.infoModeScale, PlanetsInit.infoModeScale);
 
         // Enable all the text objects
         gameObject.transform.Find("Description").gameObject.SetActive(true);
@@ -68,9 +89,33 @@ public class PlanetController : MonoBehaviour
         PlanetsInit.button.gameObject.SetActive(true);
     }
 
+    public void SetToSizeMode()
+    {
+        // Get the RectTransform from this planet object
+        RectTransform planetRectTransform = GetComponent<RectTransform>();
+        RectTransform nameRectTransform = planetNameObject.GetComponent<RectTransform>();
+
+        // Set this planet to the Size Mode position and scale
+        planetRectTransform.anchoredPosition = new Vector2(sizeModeX, sizeModeY);
+        planetImageObject.transform.localScale = new Vector2(sizeModeScale, sizeModeScale);
+
+        // Set this planet's name object back to the Size Mode position
+        nameRectTransform.anchoredPosition = sizeModeNameVector;//new Vector2(planetDisplayScript.sizeModeNameX,sizeMode;
+
+        // Deactivate all the text objects belonging to this planet
+        transform.Find("Description").gameObject.SetActive(false);
+        transform.Find("Diameter").gameObject.SetActive(false);
+        transform.Find("Temperature").gameObject.SetActive(false);
+        transform.Find("Gravity").gameObject.SetActive(false);
+        transform.Find("NumMoons").gameObject.SetActive(false);
+
+        // Set the chosen planet back to none
+        PlanetsInit.chosenPlanet = "none";
+    }
+
     void Update()
     {
-        // ----- Check if a planet has been chosen by the player -----
+        // Check if a planet has been chosen by the player
 
         // Get planet's name from the name object
         planetNameText = planetNameObject.GetComponent<Text>().text;
