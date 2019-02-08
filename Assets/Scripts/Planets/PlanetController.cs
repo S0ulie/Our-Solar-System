@@ -45,8 +45,7 @@ public class PlanetController : MonoBehaviour
         float ppu = planetImageObject.GetComponent<Image>().sprite.pixelsPerUnit;
 
 
-        // Setup the objects
-
+        // Setup the objects in accordance with the current mode
         if (SceneManager.GetActiveScene().name == "ScaleMode")
         {
             // Set the scale of the planet relative to it's diameter
@@ -60,6 +59,17 @@ public class PlanetController : MonoBehaviour
             thisModeNameY = nameRectTransform.anchoredPosition.y;
             nameRectTransform.anchoredPosition = new Vector2(thisModeNameX, thisModeNameY + GameController.textScalar * diameterInPixels);
 
+        }
+        // Setup the distance mode planet to be standard size
+        else if (gameObject.name == "Distance Planet")
+        {
+            // Set this planet's name text position to the Planet Info version
+            var nameX = nameRectTransform.anchoredPosition.x;
+            nameRectTransform.anchoredPosition = new Vector2(nameX, GameController.infoNameY);
+
+            // Set this planet's position and scale to the default version
+            planetRectTransform.anchoredPosition = new Vector2(GameController.defaultX, GameController.defaultY);
+            planetImageObject.transform.localScale = new Vector2(GameController.defaultScale, GameController.defaultScale);
         }
 
         // Save vector to variable for future use
@@ -80,9 +90,9 @@ public class PlanetController : MonoBehaviour
         var nameX = nameRectTransform.anchoredPosition.x;
         nameRectTransform.anchoredPosition = new Vector2(nameX, GameController.infoNameY);
 
-        // Set this planet's position and scale to the Planet Info version
-        planetRectTransform.anchoredPosition = new Vector2(GameController.infoX, GameController.infoY);
-        planetImageObject.transform.localScale = new Vector2(GameController.infoModeScale, GameController.infoModeScale);
+        // Set this planet's position and scale to the default version
+        planetRectTransform.anchoredPosition = new Vector2(GameController.defaultX, GameController.defaultY);
+        planetImageObject.transform.localScale = new Vector2(GameController.defaultScale, GameController.defaultScale);
 
         // Enable all the text objects
         gameObject.transform.Find("Description").gameObject.SetActive(true);
