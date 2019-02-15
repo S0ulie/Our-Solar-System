@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // Initialize the Game/Solar System
 public class GameController : MonoBehaviour
@@ -14,6 +15,9 @@ public class GameController : MonoBehaviour
 
     // Declare a dictionary to store the planets' statistics
     public static Dictionary<string, PlanetStats> planetstats;
+
+    // Current Solar System Mode
+    public static string currentMode;
 
     // Keep track of whether a planet has been chosen by the player.
     public static string chosenPlanet = "none";
@@ -37,6 +41,14 @@ public class GameController : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
+        // This is a persistent object
+        DontDestroyOnLoad(this.gameObject);
+
+        // Set the current Solar System Viewing Mode (should always start with Scale Mode)
+        currentMode = "ScaleMode";
+        // Load the viewing mode
+        SceneManager.LoadScene(currentMode);
+
         // Populate the planetstats dictionary
         planetstats = new Dictionary<string, PlanetStats>();
 
@@ -64,8 +76,5 @@ public class GameController : MonoBehaviour
         // Divide maxDiameter by biggest planet = num pixels per km
         pixelsPerKm = maxDiameterPixels / planetstats["Jupiter"].diameter;
 
-        // Initialize button
-        button = GameObject.Find("Go Back Button");
-        button.gameObject.SetActive(false);
     }
 }

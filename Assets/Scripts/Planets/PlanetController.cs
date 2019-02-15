@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 // Initialize and control the interactions with this planet
 public class PlanetController : MonoBehaviour
@@ -14,6 +13,7 @@ public class PlanetController : MonoBehaviour
     RectTransform nameRectTransform;
     Sprite planetSprite;
 
+    public string currentMode;
     public float diameterInPixels;
     public float thisModeX;
     public float thisModeY;
@@ -24,7 +24,7 @@ public class PlanetController : MonoBehaviour
     public Vector2 thisModeNameVector;
     string planetNameText;
 
-    // Setup this planet
+    // SETUP PLANET
     public void PlanetSetup(PlanetStats thisPlanet)
     {
         // Initialize Variables
@@ -46,7 +46,8 @@ public class PlanetController : MonoBehaviour
 
 
         // Setup the objects in accordance with the current mode
-        if (SceneManager.GetActiveScene().name == "ScaleMode")
+        currentMode = GameController.currentMode;//GameObject.Find("SolarSystemInit").GetComponent<GameController>().currentMode;
+        if (currentMode == "ScaleMode")
         {
             // Set the scale of the planet relative to it's diameter
             diameterInPixels = thisPlanet.diameter * GameController.pixelsPerKm;
@@ -77,7 +78,8 @@ public class PlanetController : MonoBehaviour
 
     }
 
-    // When this planet has been chosen by the player, show this Planet's Info
+
+    // PLANET CLICK
     public void onClickPlanet()
     {
         // Get this planet's name text from the name object
@@ -105,20 +107,25 @@ public class PlanetController : MonoBehaviour
         GameController.button.gameObject.SetActive(true);
     }
 
+
+    // RESET PLANET
     public void ResetPlanet()
     {
         // Get the RectTransform from this planet object
         RectTransform planetRectTransform = GetComponent<RectTransform>();
         RectTransform nameRectTransform = planetNameObject.GetComponent<RectTransform>();
 
-        // Set this planet to this Mode's position and scale
-        planetRectTransform.anchoredPosition = new Vector2(thisModeX, thisModeY);
-        planetImageObject.transform.localScale = new Vector2(thisModeScale, thisModeScale);
+        if (currentMode == "ScaleMode")
+        {
+            // Set this planet to this Mode's position and scale
+            planetRectTransform.anchoredPosition = new Vector2(thisModeX, thisModeY);
+            planetImageObject.transform.localScale = new Vector2(thisModeScale, thisModeScale);
 
-        // Set this planet's name object back to this Mode's position
-        nameRectTransform.anchoredPosition = thisModeNameVector;
+            // Set this planet's name object back to this Mode's position
+            nameRectTransform.anchoredPosition = thisModeNameVector;
+        }
 
-        // Deactivate all the text objects belonging to this planet
+        // Deactivate all the text objects and the collider belonging to this planet
         transform.Find("Description").gameObject.SetActive(false);
         transform.Find("Diameter").gameObject.SetActive(false);
         transform.Find("Temperature").gameObject.SetActive(false);
@@ -129,9 +136,10 @@ public class PlanetController : MonoBehaviour
         GameController.chosenPlanet = "none";
     }
 
+    // UPDATE FUNCTION
     void Update()
     {
-        // Check if a planet has been chosen by the player
+        // CHECK CHOSEN - Check if a planet has been chosen by the player
 
         // Get planet's name from the name object
         planetNameText = planetNameObject.GetComponent<Text>().text;
@@ -139,12 +147,28 @@ public class PlanetController : MonoBehaviour
         // If this planet has been initialized
         if (planetNameText != "unintialized")
         {
-            // If a planet has been chosen and is not the current planet's name
-            if (GameController.chosenPlanet != "none" && GameController.chosenPlanet != planetNameText)
+            // Disable other planets for Planet Info
+            bool disableBool = false;
+            switch (currentMode)
             {
-                // Disable this planet's name and image
+                case "ScaleMode":
+                    // Disable this planet if not the chosen planet
+                    if (GameController.chosenPlanet != "none" && GameController.chosenPlanet != planetNameText)
+                        disableBool = true;
+                    break;
+
+                case "DistanceMode":
+                    // Disable this planet if not the Distance Mode default planet.
+                    if (GameController.chosenPlanet != "none" && gameObject.name != "Distance Planet")
+                        disableBool = true;
+                    break;
+            }
+            if (disableBool)
+            {
+                // Disable this planet's name, image, and collider
                 planetNameObject.SetActive(false);
                 planetImageObject.SetActive(false);
+                gameObject.transform.Find("MinColliderBox").gameObject.SetActive(false);
 
             }
             // Otherwise no planet has been selected so set as active if not already;
@@ -152,6 +176,7 @@ public class PlanetController : MonoBehaviour
             {
                 planetNameObject.SetActive(true);
                 planetImageObject.SetActive(true);
+                gameObject.transform.Find("MinColliderBox").gameObject.SetActive(true);
             }
         }
     }

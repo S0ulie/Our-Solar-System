@@ -14,6 +14,10 @@ public class SwitchMode : MonoBehaviour {
         currentScene ^= 1;
         // Load the new scene
         SceneManager.LoadScene(currentScene);
+
+        // Set currentMode to the new mode
+        //GameController gameScript = GameObject.Find("SolarSystemInit").GetComponent<GameController>();
+        GameController.currentMode = SceneManager.GetActiveScene().name;
     }
 
 }
