@@ -72,9 +72,14 @@ public class PlanetController : MonoBehaviour
             planetRectTransform.anchoredPosition = new Vector2(GameController.defaultX, GameController.defaultY);
             planetImageObject.transform.localScale = new Vector2(GameController.defaultScale, GameController.defaultScale);
         }
+        else if (currentMode == "DistanceMode")
+        {
+            // Do Something
+            string testy = "testy";
+        }
 
-        // Save vector to variable for future use
-        thisModeNameVector = nameRectTransform.anchoredPosition;
+            // Save vector to variable for future use
+            thisModeNameVector = nameRectTransform.anchoredPosition;
 
     }
 

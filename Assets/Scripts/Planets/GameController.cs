@@ -77,4 +77,9 @@ public class GameController : MonoBehaviour
         pixelsPerKm = maxDiameterPixels / planetstats["Jupiter"].diameter;
 
     }
+
+    void Update()
+    {
+        Debug.Log("Current Solar System Viewing Mode = " + currentMode);
+    }
 }

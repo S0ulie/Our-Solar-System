@@ -10,14 +10,23 @@ public class SwitchMode : MonoBehaviour {
     {
         // Get the current scene index
         int currentScene = SceneManager.GetActiveScene().buildIndex;
-        // Flip between 0 and 1 to get the other scene
-        currentScene ^= 1;
-        // Load the new scene
-        SceneManager.LoadScene(currentScene);
+
+        // Switch between scenes 1 and 2
+        if (currentScene == 0 || currentScene == 2)
+        {
+            currentScene = 1;
+            GameController.currentMode = "ScaleMode";
+        }
+        else if (currentScene == 1)
+        {
+            currentScene = 2;
+            GameController.currentMode = "DistanceMode";
+        }
 
         // Set currentMode to the new mode
-        //GameController gameScript = GameObject.Find("SolarSystemInit").GetComponent<GameController>();
-        GameController.currentMode = SceneManager.GetActiveScene().name;
+
+        // Load the new scene
+        SceneManager.LoadScene(currentScene);
     }
 
 }
