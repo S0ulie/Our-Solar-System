@@ -93,7 +93,10 @@ public class PlanetController : MonoBehaviour
             planetNameText = planetNameObject.GetComponent<Text>().text;
 
             // Set this planet as the chosen planet
-            GameController.chosenPlanet = planetNameText;
+            if (currentMode == "ScaleMode")
+                GameController.chosenPlanet = planetNameText;
+            else
+                GameController.chosenPlanet = gameObject.name;
 
             // Set this planet's name text position to the Planet Info version
             var nameX = nameRectTransform.anchoredPosition.x;
@@ -175,7 +178,7 @@ public class PlanetController : MonoBehaviour
                     break;
 
                 case "DistanceMode":
-                    // Disable this planet if not the Distance Mode default planet.
+                    // Disable this planet unless it's the Distance Mode planet.
                     if (GameController.chosenPlanet != "none" && gameObject.name != "Distance Planet")
                         disableBool = true;
                     break;

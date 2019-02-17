@@ -17,7 +17,6 @@ public class GoBack : MonoBehaviour {
         GameObject chosenPlanet = GameObject.Find(GameController.chosenPlanet);
 
         // If Size Mode do reset to Scale Mode
-        //if (currentMode == "ScaleMode")
         chosenPlanet.GetComponent<PlanetController>().ResetPlanet();
 
         // If Distance Mode do reset to Distance Mode
