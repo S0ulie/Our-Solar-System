@@ -33,7 +33,9 @@ public class GameController : MonoBehaviour
     // Set the global Info Mode Name position y
     public static float infoNameY = 250f;
 
-    public static GameObject button;
+    // Create Variables for future references to buttons
+    public static GameObject buttonSwitch;
+    public static GameObject buttonBack;
 
     // This is the fraction of the screen we want a planet to take up when showing description
     [SerializeField] public static float descriptScale = 2f; //0.9f

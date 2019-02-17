@@ -7,29 +7,28 @@ public class GoBack : MonoBehaviour {
     void Awake()
     {
         //Initialize button
-        GameController.button = gameObject;//.gameObject.SetActive(false);
+        GameController.buttonBack = gameObject;
         gameObject.SetActive(false);
     }
 
     public void goBack()
     {
-        //string currentMode = GameController.currentMode;
         // Get the chosen planet object
         GameObject chosenPlanet = GameObject.Find(GameController.chosenPlanet);
-        
-        
-        // Reset the planets back to the current mode's settings
 
         // If Size Mode do reset to Scale Mode
         //if (currentMode == "ScaleMode")
-            chosenPlanet.GetComponent<PlanetController>().ResetPlanet();
+        chosenPlanet.GetComponent<PlanetController>().ResetPlanet();
 
-        // If Distance Mode do reset to distance mode
-        //else if (currentMode == "DistanceMode")
-
+        // If Distance Mode do reset to Distance Mode
 
 
-        // Deactivate the button
+        // Disable the "Go Back" button
         gameObject.SetActive(false);
+
+        // Enable the "Switch" button
+        GameController.buttonSwitch.SetActive(true);
+
+
     }
 }

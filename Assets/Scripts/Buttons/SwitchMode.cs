@@ -5,6 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class SwitchMode : MonoBehaviour {
 
+    void Awake()
+    {
+        //Initialize button
+        GameController.buttonSwitch = gameObject;
+    }
+
     // Change between Size and Distance modes
     public void switchMode()
     {
@@ -22,8 +28,6 @@ public class SwitchMode : MonoBehaviour {
             currentScene = 2;
             GameController.currentMode = "DistanceMode";
         }
-
-        // Set currentMode to the new mode
 
         // Load the new scene
         SceneManager.LoadScene(currentScene);

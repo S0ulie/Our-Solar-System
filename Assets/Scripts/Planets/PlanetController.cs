@@ -87,29 +87,41 @@ public class PlanetController : MonoBehaviour
     // PLANET CLICK
     public void onClickPlanet()
     {
-        // Get this planet's name text from the name object
-        planetNameText = planetNameObject.GetComponent<Text>().text;
+        if (currentMode == "ScaleMode" || gameObject.name == "Distance Planet")
+        {
+            // Get this planet's name text from the name object
+            planetNameText = planetNameObject.GetComponent<Text>().text;
 
-        // Set this planet as the chosen planet
-        GameController.chosenPlanet = planetNameText;
+            // Set this planet as the chosen planet
+            GameController.chosenPlanet = planetNameText;
 
-        // Set this planet's name text position to the Planet Info version
-        var nameX = nameRectTransform.anchoredPosition.x;
-        nameRectTransform.anchoredPosition = new Vector2(nameX, GameController.infoNameY);
+            // Set this planet's name text position to the Planet Info version
+            var nameX = nameRectTransform.anchoredPosition.x;
+            nameRectTransform.anchoredPosition = new Vector2(nameX, GameController.infoNameY);
 
-        // Set this planet's position and scale to the default version
-        planetRectTransform.anchoredPosition = new Vector2(GameController.defaultX, GameController.defaultY);
-        planetImageObject.transform.localScale = new Vector2(GameController.defaultScale, GameController.defaultScale);
+            // Set this planet's position and scale to the default version
+            planetRectTransform.anchoredPosition = new Vector2(GameController.defaultX, GameController.defaultY);
+            planetImageObject.transform.localScale = new Vector2(GameController.defaultScale, GameController.defaultScale);
 
-        // Enable all the text objects
-        gameObject.transform.Find("Description").gameObject.SetActive(true);
-        gameObject.transform.Find("Diameter").gameObject.SetActive(true);
-        gameObject.transform.Find("Temperature").gameObject.SetActive(true);
-        gameObject.transform.Find("Gravity").gameObject.SetActive(true);
-        gameObject.transform.Find("NumMoons").gameObject.SetActive(true);
+            // Enable all the text objects
+            gameObject.transform.Find("Description").gameObject.SetActive(true);
+            gameObject.transform.Find("Diameter").gameObject.SetActive(true);
+            gameObject.transform.Find("Temperature").gameObject.SetActive(true);
+            gameObject.transform.Find("Gravity").gameObject.SetActive(true);
+            gameObject.transform.Find("NumMoons").gameObject.SetActive(true);
 
-        // Enable the "Go Back" button
-        GameController.button.gameObject.SetActive(true);
+            // Disable the "Switch" button
+            GameController.buttonSwitch.gameObject.SetActive(false);
+
+            // Enable the "Go Back" button
+            GameController.buttonBack.gameObject.SetActive(true);
+        }
+        else if (currentMode == "DistanceMode")
+        {
+            // Make Planet move/Tween off of the screen (Lerp?)
+
+            // Start counting up a distance number
+        }
     }
 
 
