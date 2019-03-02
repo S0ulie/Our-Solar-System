@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 // Initialize and control the interactions with this planet
 public class PlanetController : MonoBehaviour
@@ -15,6 +16,7 @@ public class PlanetController : MonoBehaviour
 
     public string currentMode;
     public float diameterInPixels;
+    public float ppu;
     public float thisModeX;
     public float thisModeY;
     public float thisModeScale;
@@ -23,6 +25,8 @@ public class PlanetController : MonoBehaviour
     public float thisModeNameY;
     public Vector2 thisModeNameVector;
     string planetNameText;
+
+    GameObject distanceObj;
 
     // SETUP PLANET
     public void PlanetSetup(PlanetStats thisPlanet)
@@ -42,7 +46,7 @@ public class PlanetController : MonoBehaviour
         thisModeY = planetRectTransform.anchoredPosition.y;
 
         // Get the pixels per unit of the sprite being used
-        float ppu = planetImageObject.GetComponent<Image>().sprite.pixelsPerUnit;
+        ppu = planetImageObject.GetComponent<Image>().sprite.pixelsPerUnit;
 
 
         // Setup the objects in accordance with the current mode
@@ -64,6 +68,7 @@ public class PlanetController : MonoBehaviour
         // Setup the distance mode planet to be standard size
         else if (gameObject.name == "Distance Planet")
         {
+
             // Set this planet's name text position to the Planet Info version
             var nameX = nameRectTransform.anchoredPosition.x;
             nameRectTransform.anchoredPosition = new Vector2(nameX, GameController.infoNameY);
@@ -74,8 +79,8 @@ public class PlanetController : MonoBehaviour
         }
         else if (currentMode == "DistanceMode")
         {
-            // Do Something
-            string testy = "testy";
+            // Initialize the reference to the Distance Planet
+            distanceObj = MenuController.distanceObj;
         }
 
             // Save vector to variable for future use
@@ -121,12 +126,21 @@ public class PlanetController : MonoBehaviour
         }
         else if (currentMode == "DistanceMode")
         {
-            // Make Planet move/Tween off of the screen (Lerp?)
-
+            // Make Distance Planet move/Tween off of the screen (Lerp?)
+            distanceObj.GetComponent<PlanetController>().TravelToPlanet();
+            //transform.DOMoveX(Screen.width + transform.localScale.x * ppu, 2);
+            //transform.DOMove(new Vector3(2, 2, 2), 1);
             // Start counting up a distance number
         }
     }
 
+    // TRAVEL TO PLANET
+    public void TravelToPlanet()
+    {
+        // Make the Distance Planet tween offscreen
+        float halfPlanetWidth = GameController.defaultScale * ppu * 0.5f;
+        transform.DOMoveX(Screen.width + halfPlanetWidth, 0.75f).SetEase(Ease.InQuart);
+    }
 
     // RESET PLANET
     public void ResetPlanet()

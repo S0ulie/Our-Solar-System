@@ -82,6 +82,6 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Current Solar System Viewing Mode = " + currentMode);
+        //Debug.Log("Current Solar System Viewing Mode = " + currentMode);
     }
 }

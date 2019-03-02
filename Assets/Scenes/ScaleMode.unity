@@ -676,6 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b34f45c13b986e439ba42def4f45850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentMode: DistanceMode
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1851,7 +1852,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 4c00fe0571d78a04aa3e11b0bfac3830, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 88b6d5beab8f79d45938798213628927, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
