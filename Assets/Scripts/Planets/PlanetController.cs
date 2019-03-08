@@ -33,6 +33,7 @@ public class PlanetController : MonoBehaviour
     {
         // Initialize Variables
 
+
         // Set a reference to the child objects, Name and Image;
         planetNameObject = gameObject.transform.Find("Name").gameObject;
         planetImageObject = gameObject.transform.Find("Image").gameObject;
@@ -92,6 +93,7 @@ public class PlanetController : MonoBehaviour
     // PLANET CLICK
     public void onClickPlanet()
     {
+        // If clicking on any planet in Scale Mode or Distance Planet, get that planet's info
         if (currentMode == "ScaleMode" || gameObject.name == "Distance Planet")
         {
             // Get this planet's name text from the name object
@@ -124,10 +126,11 @@ public class PlanetController : MonoBehaviour
             // Enable the "Go Back" button
             GameController.buttonBack.gameObject.SetActive(true);
         }
+        // If clicking on a mini planet in Distance Mode, travel to that planet
         else if (currentMode == "DistanceMode")
         {
             // Make Distance Planet move/Tween off of the screen (Lerp?)
-            distanceObj.GetComponent<PlanetController>().TravelToPlanet();
+            distanceObj.GetComponent<PlanetController>().StartCoroutine(TravelToPlanet(gameObject.name));
             //transform.DOMoveX(Screen.width + transform.localScale.x * ppu, 2);
             //transform.DOMove(new Vector3(2, 2, 2), 1);
             // Start counting up a distance number
@@ -135,11 +138,38 @@ public class PlanetController : MonoBehaviour
     }
 
     // TRAVEL TO PLANET
-    public void TravelToPlanet()
+    // Handle the sequence of events for travelling to a new planet
+    IEnumerator TravelToPlanet(string planetName)
     {
-        // Make the Distance Planet tween offscreen
+        // Tween Distance Planet offscreen to the right
         float halfPlanetWidth = GameController.defaultScale * ppu * 0.5f;
-        transform.DOMoveX(Screen.width + halfPlanetWidth, 0.75f).SetEase(Ease.InQuart);
+        Tween movePlanetX = transform.DOMoveX(Screen.width + halfPlanetWidth, 0.75f).SetEase(Ease.InQuart);
+        yield return movePlanetX.WaitForCompletion();
+
+        // Number counter
+
+        // Get the distance from the sun of this planet
+        var oldKmFromSun = GetComponent<PlanetImport>().kmFromSun;
+
+        // Change to new planet
+        //GetComponent<PlanetImport>().planet = 
+
+        // Calculate the distance between new planet and current planet
+        var newKmFromSun = GetComponent<PlanetImport>().kmFromSun;
+        // Convert distance to a time using ratio e.g. 100,000 KM = 1 second
+
+        // PRINT A PLANET'S DISTANCE FROM SUN
+        Debug.Log("distance from sun = " + "something" + " million km");
+
+        // Show counter text
+        // Ease in and out over time from 0 -> calculated distance
+
+
+        // Tween new Distance Planet onscreen from the left.
+        transform.position = new Vector3(0 - halfPlanetWidth, transform.position.y, 0);
+        movePlanetX = transform.DOMoveX(Screen.width * 0.5f, 0.75f).SetEase(Ease.OutQuart);
+
+        //yield return new WaitForSeconds(1.0f);
     }
 
     // RESET PLANET

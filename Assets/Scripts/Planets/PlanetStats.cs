@@ -12,9 +12,11 @@ public class PlanetStats
     public int temperature;
     public float gravity;
     public int numMoons;
+    public double kmFromSun;
 
     public PlanetStats(string newName, string newDescription, int newDiameter,
-                        int newTemperature, float newGravity, int newNumMoons)
+                        int newTemperature, float newGravity, int newNumMoons,
+                        double newKmFromSun)
     {
         name = newName;
         description = newDescription;
@@ -22,5 +24,6 @@ public class PlanetStats
         temperature = newTemperature;
         gravity = newGravity;
         numMoons = newNumMoons;
+        kmFromSun = newKmFromSun;
     }
 }

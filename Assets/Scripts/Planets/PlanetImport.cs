@@ -17,6 +17,7 @@ public class PlanetImport : MonoBehaviour
     public Text temperatureText;
     public Text gravityText;
     public Text numMoonsText;
+    public double kmFromSun;
 
     public PlanetStats thisPlanet;
 
@@ -36,6 +37,9 @@ public class PlanetImport : MonoBehaviour
         temperatureText.text = "Average Temperature: " + thisPlanet.temperature.ToString() + " °C";
         gravityText.text = "Gravity: " + thisPlanet.gravity.ToString() + " m/s²";
         numMoonsText.text = "Number of Moons: " + thisPlanet.numMoons.ToString();
+
+        // Set the extra stats
+        kmFromSun = thisPlanet.kmFromSun;
 
         // Setup the planet
         GetComponent<PlanetController>().PlanetSetup(thisPlanet);
