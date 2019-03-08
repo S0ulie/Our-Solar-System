@@ -130,16 +130,21 @@ public class PlanetController : MonoBehaviour
         else if (currentMode == "DistanceMode")
         {
             // Make Distance Planet move/Tween off of the screen (Lerp?)
-            distanceObj.GetComponent<PlanetController>().StartCoroutine(TravelToPlanet(gameObject.name));
+            distanceObj.GetComponent<PlanetController>().MiniPlanetClicked(gameObject);
             //transform.DOMoveX(Screen.width + transform.localScale.x * ppu, 2);
             //transform.DOMove(new Vector3(2, 2, 2), 1);
             // Start counting up a distance number
         }
     }
 
+
     // TRAVEL TO PLANET
+    public void MiniPlanetClicked(GameObject planetObj)
+    {
+        StartCoroutine(TravelToPlanet(planetObj));
+    }
     // Handle the sequence of events for travelling to a new planet
-    IEnumerator TravelToPlanet(string planetName)
+    IEnumerator TravelToPlanet(GameObject planetObj)
     {
         // Tween Distance Planet offscreen to the right
         float halfPlanetWidth = GameController.defaultScale * ppu * 0.5f;
@@ -148,18 +153,23 @@ public class PlanetController : MonoBehaviour
 
         // Number counter
 
+        // Get the stats from each planet
+        PlanetImport planetInfo = GetComponent<PlanetImport>();
+        PlanetImport planetInfoNew = planetObj.GetComponent<PlanetImport>();
+
         // Get the distance from the sun of this planet
-        var oldKmFromSun = GetComponent<PlanetImport>().kmFromSun;
-
-        // Change to new planet
-        //GetComponent<PlanetImport>().planet = 
-
+        var oldKmFromSun = planetInfo.kmFromSun;
         // Calculate the distance between new planet and current planet
-        var newKmFromSun = GetComponent<PlanetImport>().kmFromSun;
+        var newKmFromSun = planetInfoNew.kmFromSun;
         // Convert distance to a time using ratio e.g. 100,000 KM = 1 second
 
+        // Change to new planet
+        // Copy values from new planet to Distance Planet.
+        planetInfo.planet = planetInfoNew.planet;
+        planetInfo.ImportThisPlanet();
+
         // PRINT A PLANET'S DISTANCE FROM SUN
-        Debug.Log("distance from sun = " + "something" + " million km");
+        Debug.Log("distance from sun = " + planetInfo.kmFromSun + " million km");
 
         // Show counter text
         // Ease in and out over time from 0 -> calculated distance

@@ -23,6 +23,11 @@ public class PlanetImport : MonoBehaviour
 
     void Start()
     {
+        ImportThisPlanet();
+    }
+
+    public void ImportThisPlanet()
+    {
         // Set the UI Name's text to the scriptable planet's name
         nameText.text = planet.name;
         // Set the UI image to the scriptable planet's sprite
