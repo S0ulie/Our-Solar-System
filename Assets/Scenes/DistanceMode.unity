@@ -392,6 +392,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224299975058273032, guid: 3568bb65ac114224e90237b50b8f2b68,
         type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224299975058273032, guid: 3568bb65ac114224e90237b50b8f2b68,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224299975058273032, guid: 3568bb65ac114224e90237b50b8f2b68,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224299975058273032, guid: 3568bb65ac114224e90237b50b8f2b68,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -700
       objectReference: {fileID: 0}
@@ -439,17 +454,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114441934020900562, guid: 3568bb65ac114224e90237b50b8f2b68,
-        type: 3}
-      propertyPath: planet
-      value: 
-      objectReference: {fileID: 11400000, guid: 307d9b053d26ee542ba54661c8318667,
-        type: 2}
-    - target: {fileID: 224741105236212300, guid: 3568bb65ac114224e90237b50b8f2b68,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 70
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3568bb65ac114224e90237b50b8f2b68, type: 3}
@@ -565,7 +569,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 70
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 275702888, guid: 3568bb65ac114224e90237b50b8f2b68, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3568bb65ac114224e90237b50b8f2b68, type: 3}
 --- !u!224 &298146033 stripped
 RectTransform:
@@ -2304,6 +2309,12 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114441934020900562, guid: 3568bb65ac114224e90237b50b8f2b68,
+        type: 3}
+      propertyPath: planet
+      value: 
+      objectReference: {fileID: 11400000, guid: f79e4ff82c9b0e6428557903f18d7b71,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3568bb65ac114224e90237b50b8f2b68, type: 3}
 --- !u!1 &2032475528

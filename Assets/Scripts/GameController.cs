@@ -22,6 +22,9 @@ public class GameController : MonoBehaviour
     // Keep track of whether a planet has been chosen by the player.
     public static string chosenPlanet = "none";
 
+    // Keep track of whether a planet is moving
+    public static bool planetIsMoving = false;
+
     // Set the global Planet name position scalar
     public static float textScalar = 0.45f;
 

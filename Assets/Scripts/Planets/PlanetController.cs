@@ -25,14 +25,15 @@ public class PlanetController : MonoBehaviour
     public float thisModeNameY;
     public Vector2 thisModeNameVector;
     string planetNameText;
+    ButtonSwitch planetButtonScript;
 
     GameObject distanceObj;
+    PlanetImport distanceImportScript;
 
     // SETUP PLANET
     public void PlanetSetup(PlanetStats thisPlanet)
     {
         // Initialize Variables
-
 
         // Set a reference to the child objects, Name and Image;
         planetNameObject = gameObject.transform.Find("Name").gameObject;
@@ -48,6 +49,9 @@ public class PlanetController : MonoBehaviour
 
         // Get the pixels per unit of the sprite being used
         ppu = planetImageObject.GetComponent<Image>().sprite.pixelsPerUnit;
+
+        // Get reference to this planet's button
+        planetButtonScript = gameObject.GetComponent<ButtonSwitch>();
 
 
         // Setup the objects in accordance with the current mode
@@ -69,7 +73,6 @@ public class PlanetController : MonoBehaviour
         // Setup the distance mode planet to be standard size
         else if (gameObject.name == "Distance Planet")
         {
-
             // Set this planet's name text position to the Planet Info version
             var nameX = nameRectTransform.anchoredPosition.x;
             nameRectTransform.anchoredPosition = new Vector2(nameX, GameController.infoNameY);
@@ -82,6 +85,12 @@ public class PlanetController : MonoBehaviour
         {
             // Initialize the reference to the Distance Planet
             distanceObj = MenuController.distanceObj;
+            distanceImportScript = distanceObj.GetComponent<PlanetImport>();
+
+            // Disable the button if this mini planet is the same as Distance Planet
+            if (gameObject.name == distanceImportScript.planet.name)
+                planetButtonScript.ButtonDisable();
+
         }
 
             // Save vector to variable for future use
@@ -127,13 +136,18 @@ public class PlanetController : MonoBehaviour
             GameController.buttonBack.gameObject.SetActive(true);
         }
         // If clicking on a mini planet in Distance Mode, travel to that planet
-        else if (currentMode == "DistanceMode")
+        else if (currentMode == "DistanceMode" && gameObject.name != distanceImportScript.planet.name
+                    && GameController.planetIsMoving == false)
         {
-            // Make Distance Planet move/Tween off of the screen (Lerp?)
+            // Enable the mini planet that corresponds with the current Distance Planet
+            GameObject.Find(distanceImportScript.planet.name).GetComponent<ButtonSwitch>().ButtonEnable();
+
+            // Disable the clicked planet's button
+            planetButtonScript.ButtonDisable();
+
+            // Start moving the Distance Planet
+            GameController.planetIsMoving = true;
             distanceObj.GetComponent<PlanetController>().MiniPlanetClicked(gameObject);
-            //transform.DOMoveX(Screen.width + transform.localScale.x * ppu, 2);
-            //transform.DOMove(new Vector3(2, 2, 2), 1);
-            // Start counting up a distance number
         }
     }
 
@@ -178,7 +192,9 @@ public class PlanetController : MonoBehaviour
         // Tween new Distance Planet onscreen from the left.
         transform.position = new Vector3(0 - halfPlanetWidth, transform.position.y, 0);
         movePlanetX = transform.DOMoveX(Screen.width * 0.5f, 0.75f).SetEase(Ease.OutQuart);
+        yield return movePlanetX.WaitForCompletion();
 
+        GameController.planetIsMoving = false;
         //yield return new WaitForSeconds(1.0f);
     }
 
