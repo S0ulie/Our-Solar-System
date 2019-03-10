@@ -172,18 +172,18 @@ public class PlanetController : MonoBehaviour
     IEnumerator TravelToPlanet(GameObject planetObj)
     {
         // Tween Distance Planet offscreen to the right
+        float planetTweenTime = 0.75f;
         float halfPlanetWidth = GameController.defaultScale * ppu * 0.5f;
-        Tween movePlanetX = transform.DOMoveX(Screen.width + halfPlanetWidth, 0.75f).SetEase(Ease.InQuart);
+        Tween movePlanetX = transform.DOMoveX(Screen.width + halfPlanetWidth, planetTweenTime).SetEase(Ease.InQuart);
 
         yield return movePlanetX.WaitForCompletion();
 
-        //transform.position = new Vector3(0 - halfPlanetWidth, transform.position.y, 0);
-
-        // Number counter
+        // Distance counter
 
         // Get the stats from each planet
         PlanetImport planetInfo = GetComponent<PlanetImport>();
         PlanetImport planetInfoNew = planetObj.GetComponent<PlanetImport>();
+
 
         // Get the distance from the sun of this planet
         var oldKmFromSun = planetInfo.kmFromSun;
@@ -196,36 +196,44 @@ public class PlanetController : MonoBehaviour
         planetInfo.planet = planetInfoNew.planet;
         planetInfo.ImportThisPlanet();
 
+        // Put Distance Planet off left of screen
+        gameObject.transform.position = new Vector3(-1000, transform.position.y, 0);
+
         // PRINT A PLANET'S DISTANCE FROM SUN
         Debug.Log("distance from sun = " + planetInfo.kmFromSun + " million km");
 
+        double travelKm = Math.Abs(newKmFromSun - oldKmFromSun);
+        float travelTime = (float)(travelKm / 1e3d);
+        travelTime = Mathf.Max(0.5f, travelTime);
 
-        double travelKm = 10000000d;//Math.Abs(newKmFromSun - oldKmFromSun);
-        double travelTime = travelKm / 1e10d;
+        Debug.Log("travelTime = " + travelTime);
 
         // Show counter text
-        GameObject.Find("Main Camera").GetComponent<DistanceController>().ActivateCounter();
+        DistanceController kmControl = GameObject.Find("Main Camera").GetComponent<DistanceController>();
+        kmControl.ActivateCounter();
+        kmControl.ResetCounter();
 
-        // Set the counter to 0
-        //var kmCounter = CountDistance.kmCounter;//DistanceController.kmCounterObj.GetComponent<CountDistance>().kmCounter;
-        //kmCounter = 0;
-        CountDistance.kmCounter = 0;
+        // Set the distance counter to 0
+        //CountDistance.kmCounter = 0.5f;
 
-        // Ease in and out over time from 0 -> calculated distance
-        Tween counterTween = DOTween.To(()=> CountDistance.kmCounter, x=> CountDistance.kmCounter = x,
-                                            travelKm, 1f).SetEase(Ease.InOutQuart);
+        // Accelerate counting over time from 0 -> calculated distance
+        Tween counterTweenNum = DOTween.To(()=> CountDistance.kmCounter, x=> CountDistance.kmCounter = x,
+                                            travelKm, travelTime).SetEase(Ease.InOutQuart);
 
+        // Set counter scale to tween to (weighted by travel time)
+        float counterScale = 0.8f + 0.1f * travelTime;
+        // Scale up counter over time
+        Tween counterTweenScale = DOTween.To(() => CountDistance.myScale, x => CountDistance.myScale = x,
+                                            counterScale, travelTime).SetEase(Ease.OutBack);
 
-        // Put Distance Planet off left of screen
-        gameObject.transform.position = new Vector3(0 - halfPlanetWidth, transform.position.y, 0);
+        //yield return counterTweenScale.WaitForCompletion();
+        yield return new WaitForSeconds(travelTime - planetTweenTime); 
+        //yield return new WaitForSeconds(0.75f);
 
-        //yield return new WaitForSeconds(3.0f);
-
-
-
+        //kmControl.DeactivateCounter();
 
         // Tween new Distance Planet onscreen from the left.
-        movePlanetX = transform.DOMoveX(Screen.width * 0.5f, 0.75f).SetEase(Ease.OutQuart);
+        movePlanetX = transform.DOMoveX(Screen.width * 0.5f, planetTweenTime).SetEase(Ease.OutQuart);
         yield return movePlanetX.WaitForCompletion();
 
         GameController.planetIsMoving = false;

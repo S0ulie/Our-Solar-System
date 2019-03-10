@@ -9,19 +9,30 @@ public class DistanceController : MonoBehaviour
 
     void Awake()
     {
-            // Get a reference to the distance planet
-            distanceObj = GameObject.Find("Distance Planet");
+        // Get a reference to the distance planet
+        distanceObj = GameObject.Find("Distance Planet");
 
-            // Get a reference to Distance Counter object
-            //Debug.Log("Before" + GameObject.Find("Distance Counter"));
-            kmCounterObj = GameObject.Find("Distance Counter");
-            //kmCounterObj.SetActive(false);
-            //Debug.Log("after" + kmCounterObj);
-
+        // Get a reference to Distance Counter object
+        kmCounterObj = GameObject.Find("Distance Counter");
     }
+    void Start()
+    {
+        DeactivateCounter();
+    }
+
 
     public void ActivateCounter()
     {
         kmCounterObj.SetActive(true);
+    }
+    public void DeactivateCounter()
+    {
+        kmCounterObj.SetActive(false);
+    }
+    public void ResetCounter()
+    {
+        CountDistance.myScale = CountDistance.myDefaultScale;
+        kmCounterObj.transform.localScale = new Vector2(CountDistance.myScale, CountDistance.myScale);
+        CountDistance.kmCounter = 0f;
     }
 }

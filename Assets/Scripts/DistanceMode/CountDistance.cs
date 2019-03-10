@@ -5,19 +5,26 @@ using UnityEngine.UI;
 
 public class CountDistance : MonoBehaviour
 {
-    Text counterText;
+    static public float myScale;
+    static public float myDefaultScale;
     static public double kmCounter;
+    Text counterText;
 
-    void Start()
+    void Awake()
     {
-        kmCounter = 0;
+        myDefaultScale = 0.5f;
+        myScale = myDefaultScale;
+
+        kmCounter = 0f;
+
         counterText = gameObject.GetComponent<Text>();
+        counterText.text = kmCounter.ToString("F") + " million km";
     }
 
     // Update is called once per frame
     void Update()
     {
-        counterText.text = kmCounter.ToString();
-        // Not working?
+        counterText.text = kmCounter.ToString("F1") + " million km";
+        transform.localScale = new Vector2(myScale, myScale);
     }
 }
