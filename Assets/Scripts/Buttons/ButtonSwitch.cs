@@ -12,7 +12,6 @@ public class ButtonSwitch : MonoBehaviour
         // If distance mode, change the colours of the buttons
         if (GameController.currentMode == "DistanceMode")
         {
-            Debug.Log("Button start script is running");
             // Initialize button reference
             thisButton = gameObject.GetComponent<Button>();
 

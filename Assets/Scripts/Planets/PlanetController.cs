@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 // Initialize and control the interactions with this planet
 public class PlanetController : MonoBehaviour
@@ -27,8 +28,8 @@ public class PlanetController : MonoBehaviour
     string planetNameText;
     ButtonSwitch planetButtonScript;
 
-    GameObject distanceObj;
-    PlanetImport distanceImportScript;
+    public GameObject distanceObj;
+    public PlanetImport distanceImportScript;
 
     // SETUP PLANET
     public void PlanetSetup(PlanetStats thisPlanet)
@@ -83,9 +84,19 @@ public class PlanetController : MonoBehaviour
         }
         else if (currentMode == "DistanceMode")
         {
-            // Initialize the reference to the Distance Planet
-            distanceObj = MenuController.distanceObj;
+            // Get reference to distance controller
+            //distanceScript = GameObject.Find("Main Camera").GetComponent<DistanceController>();
+
+            // Get the reference to the Distance Planet and it's import script
+            distanceObj = DistanceController.distanceObj;
             distanceImportScript = distanceObj.GetComponent<PlanetImport>();
+
+            // Get the reference to the Km Counter
+            //kmCounterObj = DistanceController.kmCounterObj;
+            // Get reference to the Km Counter Script
+            //kmCounterScript = kmCounterObj.GetComponent<CountDistance>();
+
+            //kmCounterObj.SetActive(false);
 
             // Disable the button if this mini planet is the same as Distance Planet
             if (gameObject.name == distanceImportScript.planet.name)
@@ -163,7 +174,10 @@ public class PlanetController : MonoBehaviour
         // Tween Distance Planet offscreen to the right
         float halfPlanetWidth = GameController.defaultScale * ppu * 0.5f;
         Tween movePlanetX = transform.DOMoveX(Screen.width + halfPlanetWidth, 0.75f).SetEase(Ease.InQuart);
+
         yield return movePlanetX.WaitForCompletion();
+
+        //transform.position = new Vector3(0 - halfPlanetWidth, transform.position.y, 0);
 
         // Number counter
 
@@ -185,12 +199,32 @@ public class PlanetController : MonoBehaviour
         // PRINT A PLANET'S DISTANCE FROM SUN
         Debug.Log("distance from sun = " + planetInfo.kmFromSun + " million km");
 
+
+        double travelKm = 10000000d;//Math.Abs(newKmFromSun - oldKmFromSun);
+        double travelTime = travelKm / 1e10d;
+
         // Show counter text
+        GameObject.Find("Main Camera").GetComponent<DistanceController>().ActivateCounter();
+
+        // Set the counter to 0
+        //var kmCounter = CountDistance.kmCounter;//DistanceController.kmCounterObj.GetComponent<CountDistance>().kmCounter;
+        //kmCounter = 0;
+        CountDistance.kmCounter = 0;
+
         // Ease in and out over time from 0 -> calculated distance
+        Tween counterTween = DOTween.To(()=> CountDistance.kmCounter, x=> CountDistance.kmCounter = x,
+                                            travelKm, 1f).SetEase(Ease.InOutQuart);
+
+
+        // Put Distance Planet off left of screen
+        gameObject.transform.position = new Vector3(0 - halfPlanetWidth, transform.position.y, 0);
+
+        //yield return new WaitForSeconds(3.0f);
+
+
 
 
         // Tween new Distance Planet onscreen from the left.
-        transform.position = new Vector3(0 - halfPlanetWidth, transform.position.y, 0);
         movePlanetX = transform.DOMoveX(Screen.width * 0.5f, 0.75f).SetEase(Ease.OutQuart);
         yield return movePlanetX.WaitForCompletion();
 
