@@ -56,7 +56,7 @@ public class PlanetController : MonoBehaviour
 
 
         // Setup the objects in accordance with the current mode
-        currentMode = GameController.currentMode;//GameObject.Find("SolarSystemInit").GetComponent<GameController>().currentMode;
+        currentMode = GameController.currentMode;
         if (currentMode == "ScaleMode")
         {
             // Set the scale of the planet relative to it's diameter
@@ -79,24 +79,15 @@ public class PlanetController : MonoBehaviour
             nameRectTransform.anchoredPosition = new Vector2(nameX, GameController.infoNameY);
 
             // Set this planet's position and scale to the default version
-            planetRectTransform.anchoredPosition = new Vector2(GameController.defaultX, GameController.defaultY);
+            planetRectTransform.anchoredPosition = new Vector2(GameController.defaultX, GameController.kmPlanetY);
             planetImageObject.transform.localScale = new Vector2(GameController.defaultScale, GameController.defaultScale);
         }
         else if (currentMode == "DistanceMode")
         {
-            // Get reference to distance controller
-            //distanceScript = GameObject.Find("Main Camera").GetComponent<DistanceController>();
 
             // Get the reference to the Distance Planet and it's import script
             distanceObj = DistanceController.distanceObj;
             distanceImportScript = distanceObj.GetComponent<PlanetImport>();
-
-            // Get the reference to the Km Counter
-            //kmCounterObj = DistanceController.kmCounterObj;
-            // Get reference to the Km Counter Script
-            //kmCounterScript = kmCounterObj.GetComponent<CountDistance>();
-
-            //kmCounterObj.SetActive(false);
 
             // Disable the button if this mini planet is the same as Distance Planet
             if (gameObject.name == distanceImportScript.planet.name)
@@ -104,8 +95,8 @@ public class PlanetController : MonoBehaviour
 
         }
 
-            // Save vector to variable for future use
-            thisModeNameVector = nameRectTransform.anchoredPosition;
+        // Save vector to variable for future use
+        thisModeNameVector = nameRectTransform.anchoredPosition;
 
     }
 
@@ -172,49 +163,31 @@ public class PlanetController : MonoBehaviour
     IEnumerator TravelToPlanet(GameObject planetObj)
     {
         // Tween Distance Planet offscreen to the right
-        float planetTweenTime = 0.75f;
+        float planetTweenTime = 0.5f;
         float halfPlanetWidth = GameController.defaultScale * ppu * 0.5f;
-        Tween movePlanetX = transform.DOMoveX(Screen.width + halfPlanetWidth, planetTweenTime).SetEase(Ease.InQuart);
-
-        yield return movePlanetX.WaitForCompletion();
-
-        // Distance counter
+        Tween movePlanetX = transform.DOMoveX(Screen.width + halfPlanetWidth, planetTweenTime).SetEase(Ease.InCirc);
 
         // Get the stats from each planet
         PlanetImport planetInfo = GetComponent<PlanetImport>();
         PlanetImport planetInfoNew = planetObj.GetComponent<PlanetImport>();
 
-
-        // Get the distance from the sun of this planet
+        // Get the distance from sun of the two planets
         var oldKmFromSun = planetInfo.kmFromSun;
-        // Calculate the distance between new planet and current planet
         var newKmFromSun = planetInfoNew.kmFromSun;
-        // Convert distance to a time using ratio e.g. 100,000 KM = 1 second
-
-        // Change to new planet
-        // Copy values from new planet to Distance Planet.
-        planetInfo.planet = planetInfoNew.planet;
-        planetInfo.ImportThisPlanet();
-
-        // Put Distance Planet off left of screen
-        gameObject.transform.position = new Vector3(-1000, transform.position.y, 0);
-
-        // PRINT A PLANET'S DISTANCE FROM SUN
-        Debug.Log("distance from sun = " + planetInfo.kmFromSun + " million km");
-
+        // Initialize time variables
+        float minTraveltime = planetTweenTime * 2;
+        double timeScaleFactor = 1e3d;
+        // Calculate the distance between new planet and old planet
         double travelKm = Math.Abs(newKmFromSun - oldKmFromSun);
-        float travelTime = (float)(travelKm / 1e3d);
-        travelTime = Mathf.Max(0.5f, travelTime);
+        // Calculate wait time based on distance
+        float travelTime = (float)(travelKm / timeScaleFactor);
+        travelTime = Mathf.Max(minTraveltime, travelTime);
 
-        Debug.Log("travelTime = " + travelTime);
-
-        // Show counter text
+        // Distance Counter
         DistanceController kmControl = GameObject.Find("Main Camera").GetComponent<DistanceController>();
+        // Enable and Reset counter text
         kmControl.ActivateCounter();
         kmControl.ResetCounter();
-
-        // Set the distance counter to 0
-        //CountDistance.kmCounter = 0.5f;
 
         // Accelerate counting over time from 0 -> calculated distance
         Tween counterTweenNum = DOTween.To(()=> CountDistance.kmCounter, x=> CountDistance.kmCounter = x,
@@ -226,14 +199,33 @@ public class PlanetController : MonoBehaviour
         Tween counterTweenScale = DOTween.To(() => CountDistance.myScale, x => CountDistance.myScale = x,
                                             counterScale, travelTime).SetEase(Ease.OutBack);
 
+        
+        // Enable and Reset journey display
+        kmControl.ActivateJourneyDisplay();
+        kmControl.SetJourneyDisplay(planetInfo.planet.name, planetInfoNew.planet.name);
+
+        float journeyScale = 1f;
+        // Scale tween in the Journey Display
+        Tween journeyTweenScale = DOTween.To(() => JourneyDisplay.myScale, x => JourneyDisplay.myScale = x,
+                                    journeyScale, planetTweenTime).SetEase(Ease.OutElastic);
+
+        yield return movePlanetX.WaitForCompletion();
+
+        // Change to new planet
+        planetInfo.planet = planetInfoNew.planet;
+        planetInfo.ImportThisPlanet();
+
+        // Put Distance Planet off left of screen
+        gameObject.transform.position = new Vector3(-1000, transform.position.y, 0);
+
         //yield return counterTweenScale.WaitForCompletion();
-        yield return new WaitForSeconds(travelTime - planetTweenTime); 
+        yield return new WaitForSeconds(travelTime - (2 * planetTweenTime));
         //yield return new WaitForSeconds(0.75f);
 
         //kmControl.DeactivateCounter();
 
         // Tween new Distance Planet onscreen from the left.
-        movePlanetX = transform.DOMoveX(Screen.width * 0.5f, planetTweenTime).SetEase(Ease.OutQuart);
+        movePlanetX = transform.DOMoveX(Screen.width * 0.5f, planetTweenTime).SetEase(Ease.OutCirc);
         yield return movePlanetX.WaitForCompletion();
 
         GameController.planetIsMoving = false;

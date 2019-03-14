@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
     // Set the global default planet position and name
     public static float defaultX = 0f;
     public static float defaultY = -50f;
+    public static float kmPlanetY = 25f;
     public static float defaultScale = 4f;
 
     // Set the global Info Mode Name position y

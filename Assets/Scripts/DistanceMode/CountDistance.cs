@@ -10,6 +10,7 @@ public class CountDistance : MonoBehaviour
     static public double kmCounter;
     Text counterText;
 
+    // Initialize the Counter
     void Awake()
     {
         myDefaultScale = 0.5f;
@@ -21,7 +22,7 @@ public class CountDistance : MonoBehaviour
         counterText.text = kmCounter.ToString("F") + " million km";
     }
 
-    // Update is called once per frame
+    // Update the scale and text of the Counter
     void Update()
     {
         counterText.text = kmCounter.ToString("F1") + " million km";
