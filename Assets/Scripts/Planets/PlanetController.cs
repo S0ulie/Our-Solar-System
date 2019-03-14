@@ -107,35 +107,7 @@ public class PlanetController : MonoBehaviour
         // If clicking on any planet in Scale Mode or Distance Planet, get that planet's info
         if (currentMode == "ScaleMode" || gameObject.name == "Distance Planet")
         {
-            // Get this planet's name text from the name object
-            planetNameText = planetNameObject.GetComponent<Text>().text;
-
-            // Set this planet as the chosen planet
-            if (currentMode == "ScaleMode")
-                GameController.chosenPlanet = planetNameText;
-            else
-                GameController.chosenPlanet = gameObject.name;
-
-            // Set this planet's name text position to the Planet Info version
-            var nameX = nameRectTransform.anchoredPosition.x;
-            nameRectTransform.anchoredPosition = new Vector2(nameX, GameController.infoNameY);
-
-            // Set this planet's position and scale to the default version
-            planetRectTransform.anchoredPosition = new Vector2(GameController.defaultX, GameController.defaultY);
-            planetImageObject.transform.localScale = new Vector2(GameController.defaultScale, GameController.defaultScale);
-
-            // Enable all the text objects
-            gameObject.transform.Find("Description").gameObject.SetActive(true);
-            gameObject.transform.Find("Diameter").gameObject.SetActive(true);
-            gameObject.transform.Find("Temperature").gameObject.SetActive(true);
-            gameObject.transform.Find("Gravity").gameObject.SetActive(true);
-            gameObject.transform.Find("NumMoons").gameObject.SetActive(true);
-
-            // Disable the "Switch" button
-            GameController.buttonSwitch.gameObject.SetActive(false);
-
-            // Enable the "Go Back" button
-            GameController.buttonBack.gameObject.SetActive(true);
+            StartCoroutine(PlanetInfo());
         }
         // If clicking on a mini planet in Distance Mode, travel to that planet
         else if (currentMode == "DistanceMode" && gameObject.name != distanceImportScript.planet.name
@@ -151,6 +123,53 @@ public class PlanetController : MonoBehaviour
             GameController.planetIsMoving = true;
             distanceObj.GetComponent<PlanetController>().MiniPlanetClicked(gameObject);
         }
+    }
+    IEnumerator PlanetInfo()
+    {
+        // Fade out
+        LevelChanger.Instance.FadeOut();
+
+        yield return new WaitForSeconds(0.5f);
+
+        // If Distance Planet, disable the counter and journey display
+        if (gameObject.name == "Distance Planet")
+        {
+            DistanceController.Instance.DeactivateCounter();
+            DistanceController.Instance.DeactivateJourneyDisplay();
+        }
+
+        // Get this planet's name text from the name object
+        planetNameText = planetNameObject.GetComponent<Text>().text;
+
+        // Set this planet as the chosen planet
+        if (currentMode == "ScaleMode")
+            GameController.chosenPlanet = planetNameText;
+        else
+            GameController.chosenPlanet = gameObject.name;
+
+        // Set this planet's name text position to the Planet Info version
+        var nameX = nameRectTransform.anchoredPosition.x;
+        nameRectTransform.anchoredPosition = new Vector2(nameX, GameController.infoNameY);
+
+        // Set this planet's position and scale to the default version
+        planetRectTransform.anchoredPosition = new Vector2(GameController.defaultX, GameController.defaultY);
+        planetImageObject.transform.localScale = new Vector2(GameController.defaultScale, GameController.defaultScale);
+
+        // Enable all the text objects
+        gameObject.transform.Find("Description").gameObject.SetActive(true);
+        gameObject.transform.Find("Diameter").gameObject.SetActive(true);
+        gameObject.transform.Find("Temperature").gameObject.SetActive(true);
+        gameObject.transform.Find("Gravity").gameObject.SetActive(true);
+        gameObject.transform.Find("NumMoons").gameObject.SetActive(true);
+
+        // Disable the "Switch" button
+        GameController.buttonSwitch.gameObject.SetActive(false);
+
+        // Enable the "Go Back" button
+        GameController.buttonBack.gameObject.SetActive(true);
+
+        // Fade in
+        LevelChanger.Instance.FadeIn();
     }
 
 
@@ -184,7 +203,8 @@ public class PlanetController : MonoBehaviour
         travelTime = Mathf.Max(minTraveltime, travelTime);
 
         // Distance Counter
-        DistanceController kmControl = GameObject.Find("Main Camera").GetComponent<DistanceController>();
+        // Get reference to Distance Controller script
+        DistanceController kmControl = DistanceController.Instance;
         // Enable and Reset counter text
         kmControl.ActivateCounter();
         kmControl.ResetCounter();
@@ -235,12 +255,12 @@ public class PlanetController : MonoBehaviour
     // RESET PLANET
     public void ResetPlanet()
     {
-        // Get the RectTransform from this planet object
-        RectTransform planetRectTransform = GetComponent<RectTransform>();
-        RectTransform nameRectTransform = planetNameObject.GetComponent<RectTransform>();
-
         if (currentMode == "ScaleMode")
         {
+            // Get the RectTransform from this planet object
+            RectTransform planetRectTransform = GetComponent<RectTransform>();
+            RectTransform nameRectTransform = planetNameObject.GetComponent<RectTransform>();
+
             // Set this planet to this Mode's position and scale
             planetRectTransform.anchoredPosition = new Vector2(thisModeX, thisModeY);
             planetImageObject.transform.localScale = new Vector2(thisModeScale, thisModeScale);
@@ -271,7 +291,7 @@ public class PlanetController : MonoBehaviour
         // If this planet has been initialized
         if (planetNameText != "unintialized")
         {
-            // Disable other planets for Planet Info
+            // Disable if in Planet Info mode
             bool disableBool = false;
             switch (currentMode)
             {
@@ -298,9 +318,16 @@ public class PlanetController : MonoBehaviour
             // Otherwise no planet has been selected so set as active if not already;
             else if (planetImageObject.activeSelf == false)
             {
+                // Reset child objects
                 planetNameObject.SetActive(true);
                 planetImageObject.SetActive(true);
                 gameObject.transform.Find("MinColliderBox").gameObject.SetActive(true);
+
+                // Reset the button
+                planetButtonScript.ButtonDisable();
+                // If planet is the not the same as the distance planet, enable it
+                if (gameObject.name != distanceImportScript.planet.name)
+                    planetButtonScript.ButtonEnable();
             }
         }
     }

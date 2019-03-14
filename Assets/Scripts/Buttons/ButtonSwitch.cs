@@ -7,7 +7,7 @@ public class ButtonSwitch : MonoBehaviour
 {
     Button thisButton;
 
-    void Start()
+    void Awake()
     {
         // If distance mode, change the colours of the buttons
         if (GameController.currentMode == "DistanceMode")

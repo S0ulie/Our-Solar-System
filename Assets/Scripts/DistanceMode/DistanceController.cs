@@ -11,8 +11,13 @@ public class DistanceController : MonoBehaviour
     public static GameObject journeyFromObj;
     public static GameObject journeyToObj;
 
+    public static DistanceController Instance;
+
     void Awake()
     {
+        // Initialize Singleton
+        Instance = this;
+
         // Get a reference to the distance planet
         distanceObj = GameObject.Find("Distance Planet");
 

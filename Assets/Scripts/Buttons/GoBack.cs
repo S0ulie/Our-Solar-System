@@ -13,14 +13,20 @@ public class GoBack : MonoBehaviour {
 
     public void goBack()
     {
+        StartCoroutine(FadeToMode());
+    }
+    IEnumerator FadeToMode()
+    {
+        // Fade out
+        LevelChanger.Instance.FadeOut();
+
+        yield return new WaitForSeconds(LevelChanger.Instance.fadeTime);
+
         // Get the chosen planet object
         GameObject chosenPlanet = GameObject.Find(GameController.chosenPlanet);
 
-        // If Size Mode do reset to Scale Mode
+        // Reset the planets
         chosenPlanet.GetComponent<PlanetController>().ResetPlanet();
-
-        // If Distance Mode do reset to Distance Mode
-
 
         // Disable the "Go Back" button
         gameObject.SetActive(false);
@@ -28,6 +34,14 @@ public class GoBack : MonoBehaviour {
         // Enable the "Switch" button
         GameController.buttonSwitch.SetActive(true);
 
+        // Activate Counters
+        if (GameController.currentMode == "DistanceMode")
+        {
+            DistanceController.Instance.ActivateCounter();
+            DistanceController.Instance.ActivateJourneyDisplay();
+        }
 
+        // Fade in
+        LevelChanger.Instance.FadeIn();
     }
 }

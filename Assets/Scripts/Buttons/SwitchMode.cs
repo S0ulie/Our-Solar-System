@@ -30,7 +30,7 @@ public class SwitchMode : MonoBehaviour {
         }
 
         // Load the new scene
-        SceneManager.LoadScene(currentScene);
+        LevelChanger.Instance.FadeToLevel(currentScene);
     }
 
 }

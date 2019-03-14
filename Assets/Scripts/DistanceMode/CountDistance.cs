@@ -13,8 +13,9 @@ public class CountDistance : MonoBehaviour
     // Initialize the Counter
     void Awake()
     {
-        myDefaultScale = 0.5f;
+        myDefaultScale = 0f;
         myScale = myDefaultScale;
+        transform.localScale = new Vector2(myScale, myScale);
 
         kmCounter = 0f;
 

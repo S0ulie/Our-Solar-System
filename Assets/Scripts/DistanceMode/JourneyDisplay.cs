@@ -10,6 +10,7 @@ public class JourneyDisplay : MonoBehaviour
     void Start()
     {
         myScale = 0f;
+        transform.localScale = new Vector2(myScale, myScale);
     }
 
     // Update the Journey Display's scale
