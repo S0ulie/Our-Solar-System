@@ -122,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 496872513}
   - component: {fileID: 496872512}
-  - component: {fileID: 496872515}
+  - component: {fileID: 496872514}
   m_Layer: 0
   m_Name: SolarSystemInit
   m_TagString: Untagged
@@ -157,7 +157,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &496872515
+--- !u!114 &496872514
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,10 +170,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMusic: {fileID: 8300000, guid: f851019d2d7d4f2479a250c98cca4411, type: 3}
-  audioClickPlanet: {fileID: 8300000, guid: 0b089b225b9095444afd110f536faa69, type: 3}
-  audioGoBack: {fileID: 8300000, guid: 2a4aaac7e3d8dc84facd026a69574973, type: 3}
-  audioTravel: {fileID: 8300000, guid: c03a2024ea93a8a438b2e4800a121cc7, type: 3}
-  audioSwitchMode: {fileID: 8300000, guid: 7d60d956e2f9b0f48887d05c8ddacb3d, type: 3}
 --- !u!1 &558385733
 GameObject:
   m_ObjectHideFlags: 0

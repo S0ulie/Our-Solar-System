@@ -30,6 +30,7 @@ public class PlanetController : MonoBehaviour
 
     public GameObject distanceObj;
     public PlanetImport distanceImportScript;
+    public AudioController audioObj;
 
     // SETUP PLANET
     public void PlanetSetup(PlanetStats thisPlanet)
@@ -54,6 +55,8 @@ public class PlanetController : MonoBehaviour
         // Get reference to this planet's button
         planetButtonScript = gameObject.GetComponent<ButtonSwitch>();
 
+        // Initialize audio controller reference
+        audioObj = AudioController.Instance;
 
         // Setup the objects in accordance with the current mode
         currentMode = GameController.currentMode;
@@ -107,6 +110,10 @@ public class PlanetController : MonoBehaviour
         // If clicking on any planet in Scale Mode or Distance Planet, get that planet's info
         if (currentMode == "ScaleMode" || gameObject.name == "Distance Planet")
         {
+            // Play planet click sound
+            audioObj.PlaySfx(AudioController.audioClickPlanet);
+
+            // Load planet's info screen
             StartCoroutine(PlanetInfo());
         }
         // If clicking on a mini planet in Distance Mode, travel to that planet
