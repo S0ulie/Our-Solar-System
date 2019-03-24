@@ -2544,12 +2544,12 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.24705882
       objectReference: {fileID: 0}
-    - target: {fileID: 114361656615998608, guid: 3568bb65ac114224e90237b50b8f2b68,
+    - target: {fileID: 114812910426677082, guid: 3568bb65ac114224e90237b50b8f2b68,
         type: 3}
       propertyPath: m_RaycastTarget
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114812910426677082, guid: 3568bb65ac114224e90237b50b8f2b68,
+    - target: {fileID: 114361656615998608, guid: 3568bb65ac114224e90237b50b8f2b68,
         type: 3}
       propertyPath: m_RaycastTarget
       value: 1

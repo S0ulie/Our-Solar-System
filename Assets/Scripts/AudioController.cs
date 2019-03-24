@@ -14,12 +14,13 @@ public class AudioController : MonoBehaviour
     // Sfx
     static public AudioClip audioClickPlanet;
     static public AudioClip audioGoBack;
-    static public AudioClip audioTravel;
+    static public AudioClip audioTravelShort;
+    static public AudioClip audioTravelLong;
     static public AudioClip audioSwitchMode;
 
     // Audio players
-    AudioSource musicPlayer;
-    AudioSource sfxPlayer;
+    public AudioSource musicPlayer;
+    public AudioSource sfxPlayer;
 
     // Initialize Singleton and audio clips
     void Awake()
@@ -31,15 +32,16 @@ public class AudioController : MonoBehaviour
         #endregion
 
         audioClickPlanet = Resources.Load("SFX/Buttons/Button_4_pack2") as AudioClip;
-        audioGoBack = Resources.Load("SFX/Buttons/Button_8_pack2") as AudioClip;
-        audioTravel = Resources.Load("SFX/Appear") as AudioClip;
-        audioSwitchMode = Resources.Load("SFX/Buttons/Button_22_pack2") as AudioClip;
+        audioGoBack = Resources.Load("SFX/Buttons/Button_22_pack2") as AudioClip;
+        audioTravelShort = Resources.Load("SFX/Appear-Cut") as AudioClip;
+        audioTravelLong = Resources.Load("SFX/Appear") as AudioClip;
+        audioSwitchMode = Resources.Load("SFX/Buttons/Button_8_pack2") as AudioClip;
     }
 
     // Initialize audio players
     void Start()
     {
-        musicPlayer = AddAudio(true, false, 1.0f);
+        musicPlayer = AddAudio(true, false, 0.15f);
         sfxPlayer = AddAudio(false, false, 1.0f);
 
         // Start Music
@@ -60,27 +62,27 @@ public class AudioController : MonoBehaviour
     // Play a sound effect
     public void PlaySfx(AudioClip sfx)
     {
-        // Pause music
-        musicPlayer.Pause();
-
         // Initialize sound effect
         sfxPlayer.clip = sfx;
 
-        // Start sfx coroutine
-        StartCoroutine(SfxRoutine());
-    }
-    IEnumerator SfxRoutine()
-    {
-        // Play sound effect
-        sfxPlayer.Play();
-        yield return new WaitWhile(() => sfxPlayer.isPlaying);
 
-        // Once sound effect has finished, fade in music
-        float increment = 0.1f;
-        for (float vol = 0f; vol <= 1; vol += increment)
+        // Play sound effect
+        sfxPlayer.volume = 1f;
+        sfxPlayer.Play();
+    }
+
+    public void FadeOutVol(AudioSource audioSource, float FadeTime)
+    {
+        StartCoroutine(FadeOutRoutine(audioSource, FadeTime));
+    }
+    public IEnumerator FadeOutRoutine(AudioSource audioSource, float FadeTime)
+    {
+        float startVolume = audioSource.volume;
+        while (audioSource.volume > 0)
         {
-            musicPlayer.volume = vol;
-            yield return new WaitForSeconds(increment);
+            audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
+            yield return null;
         }
+        audioSource.Stop();
     }
 }

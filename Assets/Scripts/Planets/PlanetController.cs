@@ -236,6 +236,12 @@ public class PlanetController : MonoBehaviour
         Tween journeyTweenScale = DOTween.To(() => JourneyDisplay.myScale, x => JourneyDisplay.myScale = x,
                                     journeyScale, planetTweenTime).SetEase(Ease.OutElastic);
 
+        // Play travel to planet sound
+        if (travelKm < 1000d)
+            audioObj.PlaySfx(AudioController.audioTravelShort);
+        else
+            audioObj.PlaySfx(AudioController.audioTravelLong);
+
         yield return movePlanetX.WaitForCompletion();
 
         // Change to new planet
@@ -245,18 +251,18 @@ public class PlanetController : MonoBehaviour
         // Put Distance Planet off left of screen
         gameObject.transform.position = new Vector3(-1000, transform.position.y, 0);
 
-        //yield return counterTweenScale.WaitForCompletion();
         yield return new WaitForSeconds(travelTime - (2 * planetTweenTime));
-        //yield return new WaitForSeconds(0.75f);
-
-        //kmControl.DeactivateCounter();
 
         // Tween new Distance Planet onscreen from the left.
         movePlanetX = transform.DOMoveX(Screen.width * 0.5f, planetTweenTime).SetEase(Ease.OutCirc);
+
+        // Fade out travel sound
+        if (audioObj.sfxPlayer.clip == AudioController.audioTravelLong)
+            audioObj.FadeOutVol(audioObj.sfxPlayer, 1.5f);
+
         yield return movePlanetX.WaitForCompletion();
 
         GameController.planetIsMoving = false;
-        //yield return new WaitForSeconds(1.0f);
     }
 
     // RESET PLANET

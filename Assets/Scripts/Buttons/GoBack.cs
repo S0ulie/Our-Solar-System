@@ -13,6 +13,10 @@ public class GoBack : MonoBehaviour {
 
     public void goBack()
     {
+        // Play Go back button sound
+        AudioController.Instance.PlaySfx(AudioController.audioGoBack);
+
+        // Return back to previous mode
         StartCoroutine(FadeToMode());
     }
     IEnumerator FadeToMode()
