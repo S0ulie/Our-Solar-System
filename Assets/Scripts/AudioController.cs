@@ -12,15 +12,18 @@ public class AudioController : MonoBehaviour
     public AudioClip audioMusic;
 
     // Sfx
-    static public AudioClip audioClickPlanet;
-    static public AudioClip audioGoBack;
-    static public AudioClip audioTravelShort;
-    static public AudioClip audioTravelLong;
-    static public AudioClip audioSwitchMode;
+    public static AudioClip audioClickPlanet;
+    public static AudioClip audioGoBack;
+    public static AudioClip audioTravelShort;
+    public static AudioClip audioTravelLong;
+    public static AudioClip audioSwitchMode;
 
     // Audio players
     public AudioSource musicPlayer;
     public AudioSource sfxPlayer;
+
+    // Fade Out Bool
+    bool isFadingOut = false;
 
     // Initialize Singleton and audio clips
     void Awake()
@@ -65,14 +68,19 @@ public class AudioController : MonoBehaviour
         // Initialize sound effect
         sfxPlayer.clip = sfx;
 
-
         // Play sound effect
+        if (isFadingOut == true)
+        {
+            StopAllCoroutines();
+            isFadingOut = false;
+        }
         sfxPlayer.volume = 1f;
         sfxPlayer.Play();
     }
 
     public void FadeOutVol(AudioSource audioSource, float FadeTime)
     {
+        isFadingOut = true;
         StartCoroutine(FadeOutRoutine(audioSource, FadeTime));
     }
     public IEnumerator FadeOutRoutine(AudioSource audioSource, float FadeTime)
@@ -84,5 +92,6 @@ public class AudioController : MonoBehaviour
             yield return null;
         }
         audioSource.Stop();
+        isFadingOut = false;
     }
 }

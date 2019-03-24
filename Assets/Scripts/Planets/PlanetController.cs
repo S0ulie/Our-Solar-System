@@ -237,7 +237,7 @@ public class PlanetController : MonoBehaviour
                                     journeyScale, planetTweenTime).SetEase(Ease.OutElastic);
 
         // Play travel to planet sound
-        if (travelKm < 1000d)
+        if (travelKm < 1800d)
             audioObj.PlaySfx(AudioController.audioTravelShort);
         else
             audioObj.PlaySfx(AudioController.audioTravelLong);
