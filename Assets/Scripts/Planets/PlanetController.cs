@@ -107,11 +107,15 @@ public class PlanetController : MonoBehaviour
     // PLANET CLICK
     public void onClickPlanet()
     {
+
         // If clicking on any planet in Scale Mode or Distance Planet, get that planet's info
         if (currentMode == "ScaleMode" || gameObject.name == "Distance Planet")
         {
             // Play planet click sound
             audioObj.PlaySfx(AudioController.audioClickPlanet);
+
+            // Disable the clicked planet's button
+            planetButtonScript.ButtonDisable();
 
             // Load planet's info screen
             StartCoroutine(PlanetInfo());
@@ -122,9 +126,6 @@ public class PlanetController : MonoBehaviour
         {
             // Enable the mini planet that corresponds with the current Distance Planet
             GameObject.Find(distanceImportScript.planet.name).GetComponent<ButtonSwitch>().ButtonEnable();
-
-            // Disable the clicked planet's button
-            planetButtonScript.ButtonDisable();
 
             // Start moving the Distance Planet
             GameController.planetIsMoving = true;
@@ -169,8 +170,8 @@ public class PlanetController : MonoBehaviour
         gameObject.transform.Find("Gravity").gameObject.SetActive(true);
         gameObject.transform.Find("NumMoons").gameObject.SetActive(true);
 
-        // Disable the "Switch" button
-        GameController.buttonSwitch.gameObject.SetActive(false);
+        // Disable the "Switch Mode" button
+        GameController.buttonSwitchMode.gameObject.SetActive(false);
 
         // Enable the "Go Back" button
         GameController.buttonBack.gameObject.SetActive(true);
@@ -217,13 +218,13 @@ public class PlanetController : MonoBehaviour
         kmControl.ResetCounter();
 
         // Accelerate counting over time from 0 -> calculated distance
-        Tween counterTweenNum = DOTween.To(()=> CountDistance.kmCounter, x=> CountDistance.kmCounter = x,
+        DOTween.To(()=> CountDistance.kmCounter, x=> CountDistance.kmCounter = x,
                                             travelKm, travelTime).SetEase(Ease.InOutQuart);
 
         // Set counter scale to tween to (weighted by travel time)
         float counterScale = 0.8f + 0.1f * travelTime;
         // Scale up counter over time
-        Tween counterTweenScale = DOTween.To(() => CountDistance.myScale, x => CountDistance.myScale = x,
+        DOTween.To(() => CountDistance.myScale, x => CountDistance.myScale = x,
                                             counterScale, travelTime).SetEase(Ease.OutBack);
 
         
@@ -233,7 +234,7 @@ public class PlanetController : MonoBehaviour
 
         float journeyScale = 1f;
         // Scale tween in the Journey Display
-        Tween journeyTweenScale = DOTween.To(() => JourneyDisplay.myScale, x => JourneyDisplay.myScale = x,
+        DOTween.To(() => JourneyDisplay.myScale, x => JourneyDisplay.myScale = x,
                                     journeyScale, planetTweenTime).SetEase(Ease.OutElastic);
 
         // Play travel to planet sound
@@ -289,6 +290,9 @@ public class PlanetController : MonoBehaviour
         transform.Find("Gravity").gameObject.SetActive(false);
         transform.Find("NumMoons").gameObject.SetActive(false);
 
+        // Enable the planet's button
+        planetButtonScript.ButtonEnable();
+
         // Set the chosen planet back to none
         GameController.chosenPlanet = "none";
     }
@@ -304,7 +308,7 @@ public class PlanetController : MonoBehaviour
         // If this planet has been initialized
         if (planetNameText != "unintialized")
         {
-            // Disable if in Planet Info mode
+            // Check whether to disable this planet
             bool disableBool = false;
             switch (currentMode)
             {
@@ -320,6 +324,7 @@ public class PlanetController : MonoBehaviour
                         disableBool = true;
                     break;
             }
+            // Disable if in Planet Info mode
             if (disableBool)
             {
                 // Disable this planet's name, image, and collider
@@ -337,10 +342,16 @@ public class PlanetController : MonoBehaviour
                 gameObject.transform.Find("MinColliderBox").gameObject.SetActive(true);
 
                 // Reset the button
+                // Disable button (always needs to be disabled first to prevent colour bug on planets)
                 planetButtonScript.ButtonDisable();
+
                 // If planet is the not the same as the distance planet, enable it
-                if (gameObject.name != distanceImportScript.planet.name)
+                if (currentMode == "DistanceMode" && gameObject.name != distanceImportScript.planet.name)
                     planetButtonScript.ButtonEnable();
+                else if (currentMode == "ScaleMode")
+                    planetButtonScript.ButtonEnable();
+
+
             }
         }
     }

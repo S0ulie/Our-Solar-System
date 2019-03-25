@@ -9,12 +9,12 @@ public class ButtonSwitch : MonoBehaviour
 
     void Awake()
     {
-        // If distance mode, change the colours of the buttons
-        if (GameController.currentMode == "DistanceMode")
-        {
-            // Initialize button reference
-            thisButton = gameObject.GetComponent<Button>();
+        // Initialize button reference
+        thisButton = gameObject.GetComponent<Button>();
 
+        // If mini planet, change the colours of the buttons
+        if (GameController.currentMode == "DistanceMode" && gameObject.name != "Distance Planet")
+        {
             // Initialize button colours
             var colourNormal = new Color32(200, 200, 200, 125);
             var colourHighlight = new Color32(225, 225, 225, 200);

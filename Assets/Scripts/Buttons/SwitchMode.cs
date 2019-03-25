@@ -8,7 +8,7 @@ public class SwitchMode : MonoBehaviour {
     void Awake()
     {
         //Initialize button
-        GameController.buttonSwitch = gameObject;
+        GameController.buttonSwitchMode = gameObject;
     }
 
     // Change between Size and Distance modes

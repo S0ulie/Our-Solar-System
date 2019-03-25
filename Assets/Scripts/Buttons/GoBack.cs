@@ -36,7 +36,7 @@ public class GoBack : MonoBehaviour {
         gameObject.SetActive(false);
 
         // Enable the "Switch" button
-        GameController.buttonSwitch.SetActive(true);
+        GameController.buttonSwitchMode.SetActive(true);
 
         // Activate Counters
         if (GameController.currentMode == "DistanceMode")

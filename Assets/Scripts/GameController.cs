@@ -38,8 +38,9 @@ public class GameController : MonoBehaviour
     public static float infoNameY = 250f;
 
     // Create Variables for future references to buttons
-    public static GameObject buttonSwitch;
+    public static GameObject buttonSwitchMode;
     public static GameObject buttonBack;
+    //Test
 
     // This is the fraction of the screen we want a planet to take up when showing description
     [SerializeField] public static float descriptScale = 2f; //0.9f
