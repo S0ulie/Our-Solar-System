@@ -171,10 +171,16 @@ public class PlanetController : MonoBehaviour
         gameObject.transform.Find("NumMoons").gameObject.SetActive(true);
 
         // Disable the "Switch Mode" button
-        GameController.buttonSwitchMode.gameObject.SetActive(false);
+        if (GameController.buttonSwitchMode != null)
+            GameController.buttonSwitchMode.gameObject.SetActive(false);
+
+        // Disable the "Credits" button
+        if (GameController.buttonCredits != null)
+            GameController.buttonCredits.gameObject.SetActive(false);
 
         // Enable the "Go Back" button
-        GameController.buttonBack.gameObject.SetActive(true);
+        if (GameController.buttonBack != null)
+            GameController.buttonBack.gameObject.SetActive(true);
 
         // Fade in
         LevelChanger.Instance.FadeIn();

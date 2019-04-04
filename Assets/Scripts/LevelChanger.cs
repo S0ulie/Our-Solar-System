@@ -8,6 +8,7 @@ public class LevelChanger : MonoBehaviour
     private int levelToLoad;
     private bool levelLoading = false;
     public float fadeTime;
+    public static int levelIndexPrev;
 
     // Create a singleton for easy access
     #region Singleton
@@ -40,6 +41,7 @@ public class LevelChanger : MonoBehaviour
     public void FadeToLevel(int levelIndex)
     {
         levelToLoad = levelIndex;
+        levelIndexPrev = SceneManager.GetActiveScene().buildIndex;
         animator.SetTrigger("FadeOut");
         levelLoading = true;
     }

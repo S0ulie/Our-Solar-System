@@ -11,7 +11,7 @@ public class SwitchMode : MonoBehaviour {
         GameController.buttonSwitchMode = gameObject;
     }
 
-    // Change between Size and Distance modes
+    // Change between Size and Distance modes on button click
     public void switchMode()
     {
         // Get the current scene index

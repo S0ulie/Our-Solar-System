@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DistanceMode.unity
     guid: 12ae500de8759e841aa76764963a02ec
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 44e5c031bd1fbaa43b6fe5ea58b61d2e
   m_configObjects: {}
