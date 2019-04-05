@@ -14,17 +14,18 @@ public class Credits : MonoBehaviour
 
         // Store the credits scene index in a variable
         levelIndexCredits = 3;
-        Debug.Log("Initial credits index =" + levelIndexCredits);
     }
 
 
-    // PLANET CLICK
+    // CREDITS CLICK
     public void onClickCredits()
     {
-
+        // Fade to Credits scene
+        LevelChanger.Instance.FadeToLevel(levelIndexCredits);
         // Load credits screen
-        StartCoroutine(CreditsInfo());
+        //StartCoroutine(CreditsInfo());
     }
+    /*
     IEnumerator CreditsInfo()
     {
         // Fade out
@@ -32,15 +33,9 @@ public class Credits : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        // Switch to Credits scene
-
-        // Enable the "Go Back" button
-        GameController.buttonBack.gameObject.SetActive(true);
-
-        Debug.Log("Credits index within coroutine =" + levelIndexCredits);
         // Fade to Credits scene
         LevelChanger.Instance.FadeToLevel(levelIndexCredits);
     }
-    
+    */
 
 }

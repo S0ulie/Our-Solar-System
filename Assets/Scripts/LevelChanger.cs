@@ -11,19 +11,24 @@ public class LevelChanger : MonoBehaviour
     public static int levelIndexPrev;
 
     // Create a singleton for easy access
-    #region Singleton
+    #region Singleton (persistant)
 
     public static LevelChanger Instance;
 
     private void Awake()
     {
+        // Singleton
         Instance = this;
+
+        // This is a persistent object
+        DontDestroyOnLoad(this.gameObject);
     }
 
     #endregion
 
     void Start()
     {
+        // Set up animation variables
         AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
         fadeTime = clips[0].length;
     }
@@ -50,7 +55,10 @@ public class LevelChanger : MonoBehaviour
     public void OnFadeComplete()
     {
         if (levelLoading == true)
+        {
             SceneManager.LoadScene(levelToLoad);
-        levelLoading = false;
+            animator.SetTrigger("FadeIn");
+            levelLoading = false;
+        }
     }
 }
