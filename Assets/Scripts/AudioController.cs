@@ -9,7 +9,7 @@ public class AudioController : MonoBehaviour
     public static AudioController Instance;
 
     // Music
-    public AudioClip audioMusic;
+    AudioClip audioMusic;
 
     // Sfx
     public static AudioClip audioClickPlanet;
@@ -33,6 +33,8 @@ public class AudioController : MonoBehaviour
         Instance = this;
 
         #endregion
+
+        audioMusic = Resources.Load("Music/The_Infinite") as AudioClip;
 
         audioClickPlanet = Resources.Load("SFX/Buttons/Button_4_pack2") as AudioClip;
         audioGoBack = Resources.Load("SFX/Buttons/Button_22_pack2") as AudioClip;
@@ -65,6 +67,9 @@ public class AudioController : MonoBehaviour
     // Play a sound effect
     public void PlaySfx(AudioClip sfx)
     {
+        // Stop any other sound effects
+        sfxPlayer.Stop();
+
         // Initialize sound effect
         sfxPlayer.clip = sfx;
 
