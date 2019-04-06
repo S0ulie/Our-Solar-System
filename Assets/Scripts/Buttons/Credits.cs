@@ -20,22 +20,11 @@ public class Credits : MonoBehaviour
     // CREDITS CLICK
     public void onClickCredits()
     {
-        // Fade to Credits scene
-        LevelChanger.Instance.FadeToLevel(levelIndexCredits);
-        // Load credits screen
-        //StartCoroutine(CreditsInfo());
-    }
-    /*
-    IEnumerator CreditsInfo()
-    {
-        // Fade out
-        LevelChanger.Instance.FadeOut();
-
-        yield return new WaitForSeconds(0.5f);
+        // Play "Switch Mode" button sound
+        AudioController.Instance.PlaySfx(AudioController.audioSwitchMode);
 
         // Fade to Credits scene
         LevelChanger.Instance.FadeToLevel(levelIndexCredits);
     }
-    */
 
 }
