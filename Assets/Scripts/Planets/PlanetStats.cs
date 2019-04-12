@@ -7,7 +7,6 @@ public class PlanetStats
 {
     public string name;
     public string description;
-
     public int diameter;
     public int temperature;
     public float gravity;

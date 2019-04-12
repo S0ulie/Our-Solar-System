@@ -77,6 +77,9 @@ public class PlanetController : MonoBehaviour
         // Setup the distance mode planet to be standard size
         else if (gameObject.name == "Distance Planet")
         {
+            // Reset planetIsMoving bool
+            GameController.planetIsMoving = false;
+
             // Set this planet's name text position to the Planet Info version
             var nameX = nameRectTransform.anchoredPosition.x;
             nameRectTransform.anchoredPosition = new Vector2(nameX, GameController.infoNameY);
@@ -107,7 +110,6 @@ public class PlanetController : MonoBehaviour
     // PLANET CLICK
     public void onClickPlanet()
     {
-
         // If clicking on any planet in Scale Mode or Distance Planet, get that planet's info
         if (currentMode == "ScaleMode" || gameObject.name == "Distance Planet")
         {
@@ -238,8 +240,8 @@ public class PlanetController : MonoBehaviour
         kmControl.ActivateJourneyDisplay();
         kmControl.SetJourneyDisplay(planetInfo.planet.name, planetInfoNew.planet.name);
 
-        float journeyScale = 1f;
         // Scale tween in the Journey Display
+        float journeyScale = 1f;
         DOTween.To(() => JourneyDisplay.myScale, x => JourneyDisplay.myScale = x,
                                     journeyScale, planetTweenTime).SetEase(Ease.OutElastic);
 

@@ -29,7 +29,7 @@ public class SwitchMode : MonoBehaviour {
             GameController.currentMode = "DistanceMode";
         }
 
-        // Play Switch button sound
+        // Play "Switch Mode" button sound
         AudioController.Instance.PlaySfx(AudioController.audioSwitchMode);
 
         // Load the new scene
