@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 // Initialize the Game/Solar System
 public class GameController : MonoBehaviour
 {
+    // Height of internal resolution of app
+    float internalHeight = 1080f;
 
     // Fraction of screen height used by biggest planet
     [SerializeField] float maxHeightUsed;
@@ -51,6 +53,9 @@ public class GameController : MonoBehaviour
         // This is a persistent object
         DontDestroyOnLoad(this.gameObject);
 
+        if (SystemInfo.deviceType == DeviceType.Handheld)
+            Application.targetFrameRate = 60;
+
         // Set the current Solar System Viewing Mode (should always start with Scale Mode)
         currentMode = "ScaleMode";
         // Load the viewing mode
@@ -78,10 +83,12 @@ public class GameController : MonoBehaviour
         planetstats.Add("Neptune", neptuneStats);
 
         // The maximum diameter of a planet in pixels
-        float maxDiameterPixels = Screen.height * maxHeightUsed;
+        float maxDiameterPixels = internalHeight * maxHeightUsed;
+        Debug.Log("maxDiameterPixels = " + maxDiameterPixels);
 
         // Divide maxDiameter by biggest planet = num pixels per km
         pixelsPerKm = maxDiameterPixels / planetstats["Jupiter"].diameter;
+        Debug.Log("pixelsPerKm = " + pixelsPerKm);
 
     }
 }

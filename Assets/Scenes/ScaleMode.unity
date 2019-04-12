@@ -1565,6 +1565,10 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.24705882
       objectReference: {fileID: 0}
+    - target: {fileID: 1022792374929536, guid: 3568bb65ac114224e90237b50b8f2b68, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3568bb65ac114224e90237b50b8f2b68, type: 3}
 --- !u!1 &1036367632
@@ -2614,21 +2618,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7019788315936506449, guid: 1dce58c4d4d0e5447a0b3d60a6867619,
-        type: 3}
-      propertyPath: EmissionModule.rateOverTime.scalar
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 7019788315936506454, guid: 1dce58c4d4d0e5447a0b3d60a6867619,
-        type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7019788315936506454, guid: 1dce58c4d4d0e5447a0b3d60a6867619,
-        type: 3}
-      propertyPath: fixedTime
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dce58c4d4d0e5447a0b3d60a6867619, type: 3}
