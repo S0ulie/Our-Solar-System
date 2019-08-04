@@ -84,11 +84,9 @@ public class GameController : MonoBehaviour
 
         // The maximum diameter of a planet in pixels
         float maxDiameterPixels = internalHeight * maxHeightUsed;
-        Debug.Log("maxDiameterPixels = " + maxDiameterPixels);
 
         // Divide maxDiameter by biggest planet = num pixels per km
         pixelsPerKm = maxDiameterPixels / planetstats["Jupiter"].diameter;
-        Debug.Log("pixelsPerKm = " + pixelsPerKm);
 
     }
 }
